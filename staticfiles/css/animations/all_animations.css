@@ -1,0 +1,149 @@
+/* All animations */
+
+@keyframes fadeOn {
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.loader {
+  width: calc(160px / cos(45deg));
+  height: 40px;
+  opacity: 0.5;
+  background: repeating-linear-gradient(-45deg,#000 0 15px,#0000 0 20px) left/200% 100%;
+  animation: l3 2s infinite linear;
+}
+@keyframes l3 {
+    100% {background-position:right}
+}
+
+        @keyframes fade-in {
+     from { opacity: 0; }
+   }
+
+   @keyframes fade-out {
+     to { opacity: 0; }
+   }
+
+   @keyframes slide-from-right {
+     from { transform: translateY(55px); }
+   }
+
+   @keyframes slide-to-left {
+     to { transform: translateY(-55px); }
+   }
+
+   .slide-it {
+     view-transition-name: slide-it;
+   }
+
+   ::view-transition-old(slide-it) {
+     animation: 180ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+     600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+   }
+   ::view-transition-new(slide-it) {
+     animation: 420ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+     600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+   }
+
+/* Анімація карток товарів у стрічці пошуку header */
+
+.searchTrue { animation: fadeIn2 1s; }
+
+@keyframes fadeIn2 {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes blinck2 {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+@keyframes blinck {
+  0% { transform: scale(0.93); }
+  100% { transform: scale(1); }
+}
+
+@keyframes blinck-min {
+  0% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+@keyframes wiggle {
+  0%, 7% {
+    transform: rotateZ(0);
+  }
+  15% {
+    transform: rotateZ(-15deg);
+  }
+  20% {
+    transform: rotateZ(10deg);
+  }
+  25% {
+    transform: rotateZ(-10deg);
+  }
+  30% {
+    transform: rotateZ(6deg);
+  }
+  35% {
+    transform: rotateZ(-4deg);
+  }
+  40%, 100% {
+    transform: rotateZ(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+#item-store-card { animation: blinck 1s; }
+
+#dropdown-store { animation: blinck2 0.5s; }
+
+#model-card { animation: blinck 1s;}
+
+.dynamic-result { animation: blinck 1s;}
+
+#item-card-mob { animation: blinck 1s;}
+
+#cart-total { animation: blinck2 1s;}
+
+#cart-products { animation: blinck2 1s;}
+
+#cart-empty { animation: blinck2 2s; }
+
+.category-card { animation: blinck-min 1s; }
+
+#to-store-button {
+    animation: blinck 2s;
+    animation: blinck 1s;
+}
+
+.dynamic-blinck { animation: blinck2 2s;}
+
+#favorite-products {animation: blinck2 2s;}
+
+.carousel-caption {animation: blinck 2s;}
+
+.zoomButton { animation: fadeIn 3s; }
+
+#carouselExampleDark { animation: blinck 2s; }
+
+.searchNone {
+  animation: fadeOn 4s;
+  opacity: 0;
+}
+
+#call-button {
+  animation: wiggle 2s;
+  animation-delay: 3s;
+}
+
+#characteristics-block {
+  animation: none !important;
+  transition: none !important;
+}

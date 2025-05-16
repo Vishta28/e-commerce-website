@@ -1,0 +1,280 @@
+/* загальний розмір елементів сторінки */
+
+html {
+  position: relative;
+  min-height: 100%;
+  padding-bottom:150px;
+}
+body {
+  margin: 0;
+  padding-bottom: 120px; /* Висота десктопного футера */
+  box-sizing: border-box;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 200px;
+  z-index: 10;
+}
+
+#footer-mob {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 370px; /* Висота мобільного футера */
+  }
+
+  #footer {
+    display: none;
+  }
+
+  #footer-mob {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: auto; /* Задаємо потрібну висоту */
+    z-index: 10;
+  }
+}
+
+/* стиль елементів сторінки search-result в header */
+.search-results {
+    position: absolute;
+    z-index: 999;
+}
+#search-results-item {
+    position: relative;
+    overflow: visible;
+}
+
+.form-control:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(102, 102, 153, 0.3);
+}
+#form-search:focus {
+    border-color: #ffffff;
+    box-shadow: 3.0px 3.1px 6.1px 0.1rem rgba(255, 204, 0, 0.7);
+}
+
+/* стиль елементів з категоріми товарів на головній сторінці welcome */
+#welcome-card1:hover, #welcome-card2:hover, #welcome-card3:hover, #welcome-card4:hover:hover {
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  transform: scale(1.02);
+  z-index: 1;
+  transition: transform 250ms;
+}
+
+#icon-search:hover {transform: scale(1.02);}
+
+/* стиль елементів з категоріями (accordion) товарів welcome.mob */
+.accordion-button:focus {
+  border-color: #181a18;
+  box-shadow: 0 0 0 0.2rem rgba(102, 102, 153, 0.3);
+  box-shadow: 0 8px 16px rgba(102, 102, 153, 0.3), /* знизу і зліва */
+              8px 0 16px rgba(102, 102, 153, 0.3), /* справа */
+              -8px 0 16px rgba(102, 102, 153, 0); /* зліва */
+}
+
+/* Видалити!!! */
+#flush-headingOne3-button {
+    background-image: url('/static/store/delete_this_static_6.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+.accordion-item {
+    background: none !important; /* Вимикаємо стандартний фон */
+}
+
+.background-image-accordion {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -999;
+  display: block;
+  background-image: url('/static/store/Adapters stations wide2ornage.png');
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.accordion-button {
+    background: none !important;
+}
+
+#flush-headingOne-button:focus .background-image-accordion {
+    filter: brightness(50%);
+    background-color: orange;
+  }
+
+
+#flush-headingOne-button .background-image-accordion {
+    filter: brightness(100%);
+}
+
+.accordion-button::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffcc00'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+
+#flush-headingOne-button .content-accordion {
+    color: white;
+  }
+
+#flush-headingOne-button:focus .content-accordion {
+    color: #ffcc00;
+  }
+
+.background-image-accordion:focus {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -9999;
+  display: block;
+  background-image: url('/static/store/delete_this_static_6.jpg');
+  width: 100%;
+  height: 100%;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
+
+.content-accordion {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#flush-headingOne3-button:focus {
+    border-color: #181a18;
+    box-shadow: 0 0 0 0.2rem rgba(102, 102, 153, 0.3);
+    box-shadow: 0 8px 16px rgba(102, 102, 153, 0.3), /* знизу і зліва */
+              8px 0 16px rgba(102, 102, 153, 0.3), /* справа */
+              -8px 0 16px rgba(102, 102, 153, 0); /* зліва */
+    background-image: url('/static/store/delete_this_static_6.jpg');
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+}
+
+/* стиль кнопки меню мобільна версія */
+.offcanvas-end {
+  width:75% !important;
+}
+
+/* стиль пошуку header.mob */
+/* Фіксований розмір конкурує з клавіатурою */
+.offcanvas-top {
+  height:90px !important;
+}
+.search-main:focus {
+    border-color: #ededed;
+    box-shadow: 0 0 0 0.2rem rgba(227, 186, 52, 0.5);
+}
+
+/* стиль кнопки close сторінки comparison */
+.btn-close:focus {
+    border-color: #181a18;
+    box-shadow: 0 0 0 0.2rem rgba(93, 85, 64, 0.2);
+}
+
+/* стиль галреї фото item_detail */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 30px;
+}
+
+/* стиль footer */
+.footer {
+   margin-bottom: 0;
+}
+
+/* htmx hx-ext */
+[data-loading] {
+  display: none;
+}
+
+/* стиль ефектів кнопок menu header */
+.header-menu:hover {
+  opacity: 0.75;
+}
+
+/* стиль ефектів кнопок нижнього меню хедера menu-header-bottom */
+.nav-link-header-bottom:hover {
+    border-bottom: 2px solid orange !important;
+}
+.nav-link-header-bottom:hover {
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 250ms ease-in-out;
+}
+#header-bottom:active {
+    border-bottom: 2px solid orange;
+}
+
+/* стиль кнопки call-button в header */
+.call-button {
+  width: 60px;
+  height: 40px;
+  margin-bottom: 10px;
+  border: none;
+}
+
+#logo{
+  filter: drop-shadow(0px 0px 10px rgba(255, 204, 0, 0.5));
+}
+
+#call-button:hover {
+  transform: scale(1.1);
+  transition: transform 250ms;
+}
+
+#cart-button:hover {
+  transform: scale(1.1);
+  transition: transform 250ms;
+}
+
+.call-image {
+  display: block;
+  width: 70px;
+  height: 70px;
+  position: relative;
+  bottom: 16px;
+  right: 10px;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.btn-call-mob{
+  width: 40px;
+  height: 40px;
+  margin-bottom: 5px;
+}
+
+
+.call-image-mob{
+  display: block;
+  width: 85px;
+  height: 85px;
+  position: relative;
+  bottom: 27px;
+  right: 30px;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.hhh:hover {
+  transform: scale(1.07);
+  transition: transform 500ms;
+}
+

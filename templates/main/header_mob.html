@@ -1,0 +1,140 @@
+<!--  header container  -->
+<header>
+    <div class=".container header">
+        <div class="header-content mx-auto p-2 bg-light" style="border-width: 50%;">
+            <!-- logo -->
+            <div class="row g-0 header">
+                <div class="col-5 d-flex align-items-center ms-1">
+                    <a href="/">
+                    {% load static %} <img id="logo" src="{% static 'store/cropped-eMobility-supermarket2.png' %}" width="135" height="45">
+                    </a>
+                </div>
+
+                <!--contact info-->
+                <div class="col-1 d-flex align-items-center ms-1" type="button">
+                    <button id="call-button" class="btn btn-call-mob"
+                        hx-get="{% url 'contact_info' %}"
+                        hx-target="#contact-modals-here"
+                        hx-trigger="click"
+                        data-bs-toggle="modal"
+                        data-bs-target="#contact-modals-here">
+                        {% load static %}<img src="{% static 'store/Call 01.svg' %}" class="opacity-75" width="29" height="29">
+                    </button>
+                </div>
+
+                <!--search bar-->
+                <div class="col-1 d-flex justify-content-center offset-1">
+                    <button type="button" class="btn position-relative opacity-75" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg>
+                    </button>
+                    <div class="offcanvas offcanvas-top bg-white" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+                        <form class="search" method="GET" action="{% url 'store' %}">
+                            <div class="offcanvas-header mt-2">
+                                <input type="search" class="form-control search-main rounded-0" placeholder="Введіть назву товару або бренду..." aria-label="Search" name="q"
+                                       hx-get="{% url 'search_results' %}"
+                                       hx-ext="loading-states"
+                                       hx-trigger="keyup changed delay:700ms"
+                                       hx-swap="innerHTML transition:true"
+                                       hx-target="#search-results-item"
+                                       hx-vals-conditional="this.value.length >= 3"
+                                       autocomplete="off">
+                                <div id="spinner" class="spinner-grow spinner-grow-sm text-warning d-none top-0 end-0 p-2" role="status" data-loading-class-remove="d-none">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" data-loading-class="d-none"></button>
+                            </div>
+                        <div id="search-results-item" hx-indicator="loading"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <!--cart-->
+                <div class="col-1 d-flex align-items-center opacity-75 ms-1">
+                    <div id="header_menu_cart_button"
+                            hx-get="{% url 'header_menu_cart' %}"
+                            hx-trigger="update_cart from:body"
+                            hx-swap="innerHTML">
+                            {% include 'orders/partials/header_menu_cart_button.html' %}
+                        </div>
+                </div>
+
+                <!--main menu-->
+                <div class="col-1 d-flex align-items-center ms-3">
+                    <div class="btn-group m">
+                        <button type="button" class="btn opacity-75" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"></path>
+                            </svg>
+                        </button>
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                            <div class="offcanvas-header bg-light">
+                                <h5 class="offcanvas-title" id="offcanvasRightLabel">Меню</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body bg-light">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item border-warning bg-light fs-5"><a class="link-dark" href="{% url 'store' %}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-grid mb-1 me-3" viewBox="0 0 16 16">
+                                            <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+                                        </svg>
+                                        Всі товари
+                                    </a></li>
+                                    <li class="list-group-item border-warning bg-light fs-5"><a class="link-dark" href="{% url 'favorites' %}">
+                                        {% load static %}<img class="me-3" src="{% static 'store/Like 01.svg' %}" width="28" height="28">
+                                        Вподобання
+                                    </a></li>
+                                    <li class="list-group-item border-warning bg-light fs-5"><a class="link-dark" href="{% url 'comparison' %}">
+                                        {% load static %}<img class="me-3" src="{% static 'store/Comparing 00.svg' %}" width="24" height="25">
+                                        Порівняти товари
+                                    </a></li>
+                                    <li class="list-group-item border-warning bg-light fs-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-tools mb-1 me-3" viewBox="0 0 16 16">
+                                            <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708M3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026z"/>
+                                        </svg>
+                                        Послуги
+                                    </li>
+                                    <li class="list-group-item border-warning bg-light fs-5"><a class="link-dark" href="{% url 'articles' %}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-card-text me-3" viewBox="0 0 16 16">
+                                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                                            <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8m0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5"/>
+                                        </svg>
+                                        Статті
+                                    </a></li>
+                                    <button class="btn btn-warning opacity-75 rounded-0 mt-4">
+                                        <a href="{% url 'models_menu' %}" class="text-dark">
+                                            Магазин
+                                        </a>
+                                    </button>
+                                    <a class="list-group-item border-warning bg-light opacity-75 fs-6 text-center mt-2">Про нас</a>
+                              </ul>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="contact-modals-here"
+            class="modal modal-blur fade"
+            style="display: none"
+            aria-hidden="false"
+            tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+        <div id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            aria-labelledby="staticBackdropLabel"
+            class="modal modal-blur fade"
+            style="display: none"
+            aria-hidden="false"
+            tabindex="-1">
+            <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+    </div>
+</header>

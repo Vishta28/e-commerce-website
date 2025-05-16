@@ -1,0 +1,92 @@
+{% extends 'main/main.html' %}
+
+
+{% block title %}
+Обрані товари
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid position-relative">
+    <div class="row mt-4 d-flex justify-content-center">
+        <div class="col-11 col-lg-11 col-xxl-9">
+            <div class="row">
+                <div class="col-12 d-flex align-items-center justify-content-center justify-content-lg-start bg-light">
+                    <h6 class="text-center display-6">Обрані товари:</h6>
+                </div>
+                {% if request.session.favorites|length == 8 %}
+                <span class="bg-danger fs-6 bg-opacity-25 d-flex justify-content-center mt-3 text-center rounded-pill">Ви майже досягли ліміту по доданим товарам!</span>
+                {% elif request.session.favorites|length == 10 %}
+                <span class="bg-warning fs-6 bg-opacity-50 d-flex justify-content-center mt-3 text-center rounded-pill">Ви досягли ліміту по доданим товарам! Видаліть товари з обраних щоб додати нові.</span>
+                {% endif %}
+                <div class="col-12 col-lg-10 position-relative mt-3">
+                    <div class="row">
+                    {% if request.session.favorites %}
+                        {% for item in request.session.favorites %}
+                            {% for chargersitems in items %}
+                                {% if item.slug == chargersitems.slug %}
+                                    <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-12">
+                                        <div class="d-block mx-auto card position-relative rounded-0" id="model-card" style="width: 15rem;">
+
+                                            {% if chargersitems_images|get_item:item.slug %}
+                                                {% for image in chargersitems_images|get_item:item.slug %}
+                                                    {% for model in chargersitems.model.all %}
+                                                        {% if forloop.first %}
+                                                        <a href="{% url 'item_detail' category=chargersitems.category.slug model=model.slug charger_slug=chargersitems.slug %}">
+                                                            <img src="{{ image }}" class="bd-placeholder-img card-img-top" width="50%" height="220">
+                                                        </a>
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                <!--delete form close button-->
+                                                <form method="post" action="{% url 'remove_from_favorites' %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="slug" value="{{item.slug}}">
+                                                    <input type="hidden" name="action" value="delete">
+                                                    <div class="position-absolute top-0 end-0 p-2">
+                                                        <button type="submit" class="btn btn-lg btn-close"></button>
+                                                    </div>
+                                                </form>
+                                                {% endfor %}
+
+                                            {% else %}
+                                            <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+                                            {% endif %}
+
+                                            <div class="card-body">
+                                                <h6 class="card-title fw-light fs-5">{{chargersitems.title}}</h6>
+                                                <h6 class="text-muted fw-normal fs-6 small">{{chargersitems.category}}</h6>
+                                                <h6 class="text-muted fw-semibold fs-6 small">{{ chargersitems.price|multiply:currency}} {{currency_token}}</h6>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                {%endif%}
+                            {%endfor%}
+                        {% endfor %}
+                    {% else %}
+                    <div class="container-lg">
+                        <div class="container bg-light mt-2 mb-2 rounded-2">
+                            <p class="fs-5 fw-light text-center">До списку вподобань не додано жодного товару. Можете переглянути товари на сторінці <a href="{% url 'store' %}" class="link-warning link-underline">магазину</a> !</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="d-none d-lg-block col-2 border mt-4 mb-4">
+                    <div>
+                        <p>додаткова інформація</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-none">
+    <button type="submit" id="favorite-button" class="btn btn-white rounded-pill bg-light opacity-75 btn-sm" hx-swap-oob="true">
+        <a href="{% url 'favorites' %}">
+        {% load static %}<img src="{% static 'store/Like 04.svg' %}" width="50" height="40">
+        </a>
+    </button>
+</div>
+
+{% endblock %}

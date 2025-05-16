@@ -1,0 +1,49 @@
+# ▶️ Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ▶️ Environment files
+.env
+*.env
+
+# ▶️ Django settings (якщо персональні)
+**/settings_local.py
+**/local_settings.py
+**/settings_dev.py
+**/settings.py  # Якщо не хочеш пушити взагалі — залиш
+
+# ▶️ Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# ▶️ IDEs
+.idea/
+.vscode/
+
+# ▶️ Logs
+*.log
+
+# ▶️ SQLite database
+*.sqlite3
+
+# ▶️ Static/media (залежно від проєкту)
+staticfiles/
+media/
+
+# ▶️ Migrations (можна залишити — дивись нижче)
+**/migrations/__pycache__/
+# **/migrations/  ← це краще не ігнорувати, інакше буде плутанина в командній роботі
+
+# ▶️ Pytest / coverage / testing
+htmlcov/
+.tox/
+.coverage
+.pytest_cache/
+
+# ▶️ System files
+.DS_Store
+Thumbs.db
+

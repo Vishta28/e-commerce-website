@@ -1,0 +1,137 @@
+<div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class="modal-header row border-0">
+            <div class="col-10">
+                <h5 class="modal-title">{{item.title}}</h5>
+            </div>
+            <div class="col-2 d-flex justify-content-center">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+        </div>
+        <div class="d-lg-none d-xl-none d-xxl-none card rounded-0 border border-0 border-warning border-1 border-opacity-75 p-3">
+            <small class="text-sm">{{item.small_description}}</small>
+            <hr/>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-6 col-lg-4">
+                    <div class="card example-1 border-0 overflow-auto" style="max-height: 300px;">
+                        <div class="card-body">
+                            <div id="quick-view-like">
+                                {% if item_exist_favorites %}
+                                <div class="like-button d-flex justify-content-start">
+                                    <div data-toggle="tooltip" data-placement="top" title="переглянути">
+                                        <button type="submit" class="btn btn-white rounded-pill bg-light opacity-75 btn-sm">
+                                            <a href="{% url 'favorites' %}">
+                                            {% load static %}<img src="{% static 'store/Like 04.svg' %}" width="50" height="40">
+                                            </a>
+                                        </button>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="like-button d-flex justify-content-start">
+                                    <form id="favorite-button"
+                                        hx-post="{% url 'add_to_favorites' %}"
+                                        hx-trigger="click"
+                                        hx-swap="none transition:true">
+
+                                        {% csrf_token %}
+                                        <input type="hidden" name="slug" value="{{item.slug}}">
+                                        {% if user_agent.is_mobile %}
+                                        <input type="hidden" name="user_agent" value="True">
+                                        {% else %}
+                                        <input type="hidden" name="user_agent" value="False">
+                                        {% endif %}
+                                        <button type="submit" class="btn btn-white rounded-pill opacity-75 btn-sm">
+                                            {% load static %}<img src="{% static 'store/Like 01.svg' %}" width="49" height="39">
+                                        </button>
+                                    </form>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            {% for image in chargersitems_images|get_item:item.slug %}
+                            <a href="{{image}}">
+                                <img src="{{ image }}" class="bd-placeholder-img card-img-top" alt="...">
+                            {% endfor %}
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-6 col-lg-4 d-flex align-items-center justify-content-center">
+                    <ul class="list-group list-group-flush text-center small">
+                        {% if item.category.slug == 'accessories'%}
+                        <li class="list-group-item">Розмір: {{item.size}}</li>
+                        <li class="list-group-item">Матеріал: {{item.material}}</li>
+                        <li class="list-group-item">Тип: {{item.get_accessories_type_display}}</li>
+                        {% else %}
+                        <li class="list-group-item">Тип роз'єму: {{item.type}}</li>
+                        <li class="list-group-item">Потужність, ампери: {{item.power_amps}}A</li>
+                        <li class="list-group-item">Кількість фаз: {{item.phases}}</li>
+                        <li class="list-group-item">Довжина кабелю: {{item.cable_length}} метрів</li>
+                        <li class="list-group-item">Захист від вологи: {{item.protection}}</li>
+                        <li class="list-group-item">Бренд: {{item.brand}}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="d-none d-lg-block col-lg-4 card p-3 border-0 border-start border-2 border-warning rounded-0 bg-light overflow-auto" style="max-height: 300px;">
+                    <small class="text-sm">{{item.small_description}}</small>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+            <div class="btn-group shadow d-flex justify-content-center align-items-center">
+                {% if item.in_stock == 'False'%}
+                <button class="btn btn-danger rounded-0 opacity">
+                    Немає в наявності
+                </button>
+                {% elif item_exist_cart %}
+                <button type="button" class="btn btn-success btn-md rounded-0 opacity-75"
+                    hx-get="{% url 'cart' %}"
+                    hx-target="#contact-modals-here"
+                    hx-trigger="click"
+                    data-bs-toggle="modal"
+                    data-bs-target="#contact-modals-here">
+                    Додано до кошика
+                </button>
+                {% else %}
+                <button type="button" id="quick-view-cart-button" class="btn btn-warning btn-md rounded-0 opacity-75"
+                    hx-get="{% url 'add_to_cart' item.slug 'quick-view-cart-button' %}"
+                    hx-trigger="click"
+                    hx-target="#header_menu_cart_button"
+                    hx-swap="outerHTML transition:true">
+                    Додати до кошика
+                </button>
+                {% endif %}
+            </div>
+            {% if item_exist_comparison %}
+            <a href="{% url 'comparison' %}">
+                <button type="button" class="btn btn-md comparison-success btn-success rounded-0 shadow opacity-75">
+                    Додано
+                </button>
+            </a>
+            {% else %}
+            <form class="comparison-form" id="comparison-active-quickview"
+                hx-post="{% url 'add_to_comparison' %}"
+                hx-trigger="click"
+                hx-swap="none">
+
+                {% csrf_token %}
+                <input type="hidden" name="slug" value="{{item.slug}}">
+                {% if user_agent.is_mobile %}
+                <input type="hidden" name="user_agent" value="True">
+                {% elif user_agent.is_tablet %}
+                <input type="hidden" name="user_agent" value="True">
+                {% else %}
+                <input type="hidden" name="user_agent" value="False">
+                {% endif %}
+                <button type="submit" class="btn btn-warning btn-md rounded-0 shadow opacity-75">
+                    Порівняти
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>

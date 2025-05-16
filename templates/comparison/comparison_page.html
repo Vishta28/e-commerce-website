@@ -1,0 +1,101 @@
+{% extends 'main/main.html' %}
+
+
+{% block title %}
+Порівняння товарів
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-lg-11 col-xxl-9">
+            <div class="row">
+                <div class="col-12 d-flex align-items-center justify-content-center justify-content-lg-start bg-light mt-4">
+                    <h6 class="text-center display-6">Порівняння товарів:</h6>
+                </div>
+                {% if request.session.comparison %}
+                    {% for item in request.session.comparison %}
+                    <div class="col-6 col-lg-3 d-flex justify-content-center border border-start border-end border-top-0 border-bottom-0 mt-3">
+                        <div class="card border-0" style="width: 12rem; ">
+                            {% for chargersitems in items %}
+                                {% if item.slug == chargersitems.slug %}
+                                    {% if chargersitems_images|get_item:item.slug %}
+                                        {% for image in chargersitems_images|get_item:item.slug %}
+                                            {% for model in chargersitems.model.all %}
+                                                {% if forloop.first %}
+                                                <a href="{% url 'item_detail' category=chargersitems.category.slug model=model.slug charger_slug=chargersitems.slug %}">
+                                                    <img src="{{ image }}" class="card-img-top" width="50%" height="180">
+                                                </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% else %}
+                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+                                    {% endif %}
+                                    <div class="list-group-item text-center mt-2 fw-light fs-6 bg-light rounded-2"><p>{{chargersitems.title}}</p></div>
+                                    <div class="card-body">
+
+                                    <!--delete form-->
+                                    <form method="post" action="{% url 'remove_from_comparison' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="slug" value="{{item.slug}}">
+                                        <input type="hidden" name="action" value="delete">
+                                        <div class="position-absolute top-0 end-0 p-2 opacity-75">
+                                            <button type="submit" class="btn btn-lg btn-close"></button>
+                                        </div>
+                                    </form>
+                                        {% if chargersitems.category.slug == 'accessories' %}
+                                         <ul class="list-group list-group-flush text-center">
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">Розмір: {{chargersitems.size}}</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">Матеріал: {{chargersitems.material}}</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.accessories_type}}</li>
+                                             <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal"><b>Ціна: </b>{{ chargersitems.price|multiply:currency}} {{currency_token}}</li>
+                                         </ul>
+                                        {% else %}
+                                        <ul class="list-group list-group-flush text-center">
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.type}}</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.power_amps}} Ампер</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.power}} кВт</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.phases}}</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.cable_length}} метрів</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.form}}</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.protection}}</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.brand}}</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.country}}</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal"><b>Гарантія: </b>{{chargersitems.guarantee}}</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal"><b>Ціна: </b>{{ chargersitems.price|multiply:currency}} {{currency_token}}</li>
+                                            <li class="list-group-item border border-0 border-bottom border-warning border-1 fw-normal">{{chargersitems.features}}</li>
+                                        </ul>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="container-lg">
+                    <div class="container bg-light mt-3 mb-2 rounded-2">
+                        <p class="fs-5 fw-light text-center">До списку порівнянь не додано жодного товару. Можете переглянути товари на сторінці <a href="{% url 'store' %}" class="link-warning link-underline">магазину</a> !</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-none">
+    <button type="submit" class="btn btn-white rounded-pill bg-light opacity-75 btn-sm" id="comparison_active" hx-swap-oob="true">
+        <a href="{% url 'comparison' %}" type="submit">
+            {% load static %}<img src="{% static 'store/Comparing 03.svg' %}" width="35" height="40">
+        </a>
+    </button>
+</div>
+<div class="d-none">
+    <a href="{% url 'comparison' %}" id="comparison-active-quickview" hx-swap-oob="true">
+        <button type="button" class="btn btn-md comparison-success btn-success rounded-0 shadow opacity-75">
+            Додано
+        </button>
+    </a>
+</div>
+{% endblock %}

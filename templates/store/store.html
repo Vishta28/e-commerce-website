@@ -1,0 +1,653 @@
+{% extends 'main/main.html' %}
+
+
+{% block title %}
+Всі товари
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid" id="main-div">
+    <div class="row d-flex align-items-center justify-content-center">
+        <div class="col-md-12 col-xl-11 col-xxl-9 mt-2">
+            <div class="row mb-2">
+                <div class="ms-1">
+                    <small class="mb-1 opacity-75 bg-light" style="font-size: small;"><a href="/" class="link-dark">Головна
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="orange" class="bi bi-house-fill mb-1" viewBox="0 0 16 16">
+                        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+                        <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+                        </svg></a> <span class="fw-semibold fs-6 m-1"> ></span> Всі товари
+                    </small>
+                </div>
+                <div class="col-5 mt-2">
+                    <div class="btn-group bg-light d-flex justify-content-start rounded-0" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-outline-dark btn-md border-start-0 border-bottom-0 border-top-0 rounded-0 d-flex align-items-center justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLeft" aria-controls="offcanvasLeft">
+                            Фільтр
+                            <span class="vr mx-2"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="25" fill="currentColor" class="bi bi-sliders2 pt-1" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M10.5 1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4H1.5a.5.5 0 0 1 0-1H10V1.5a.5.5 0 0 1 .5-.5M12 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m-6.5 2A.5.5 0 0 1 6 6v1.5h8.5a.5.5 0 0 1 0 1H6V10a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5M1 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 1 8m9.5 2a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V13H1.5a.5.5 0 0 1 0-1H10v-1.5a.5.5 0 0 1 .5-.5m1.5 2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="btn btn-outline-dark border-top-0 border-bottom-0 border-end-0 rounded-0 d-flex align-items-center justify-content-center" data-bs-toggle="dropdown">
+                            Сортувати
+                            <span class="vr mx-2"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" fill="currentColor" class="bi bi-sort-down pt-1" viewBox="0 0 16 16">
+                                <path d="M3.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 11.293V2.5zm3.5 1a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1z"/>
+                            </svg>
+                        </button>
+                        <ul id="dropdown-store" class="dropdown-menu dropdown-menu-end rounded-0 text-center shadow">
+                            {% if plg %}
+                            <li><a class="dropdown-item" href="?plg=plugs_adapters&sort=price_up">Від дешевих</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% elif ac %}
+                            <li><a class="dropdown-item" href="?ac=accessories_store&sort=price_up">Від дешевих</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="?sort=price_up">Від дешевих</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+                            {% if plg %}
+                            <li><a class="dropdown-item" href="?plg=plugs_adapters&sort=price_down">Від дорогих</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% elif ac %}
+                            <li><a class="dropdown-item" href="?ac=accessories_store&sort=price_down">Від дорогих</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="?sort=price_down">Від дорогих</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+                            {% if plg %}
+                            <li><a class="dropdown-item" href="?plg=plugs_adapters&sort=date_new">Нові товари</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% elif ac %}
+                            <li><a class="dropdown-item" href="?ac=accessories_store&sort=date_new">Нові товари</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="?sort=date_new">Нові товари</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+                            {% if plg %}
+                            <li><a class="dropdown-item" href="?plg=plugs_adapter&sort=in_stock">Навяність товарів</a></li>
+                            {% elif ac %}
+                            <li><a class="dropdown-item" href="?ac=accessories_store&sort=in_stock">Навяність товарів</a></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="?sort=in_stock">Навяність товарів</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                {% if ac %}
+                <div class="col-7 d-flex justify-content-end mt-2">
+                    <a class="bg-light" href="{% url 'store' %}">
+                        <button type="button" class="btn btn-outline-dark rounded-0 btn-md border border-2 border-top-0 border-bottom-0 border-end-0 border-warning px-4 d-flex align-items-center justify-content-center">
+                            Повернутись до зарядного обладнання
+                            <span class="vr mx-2"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                            </svg>
+                        </button>
+                    </a>
+                </div>
+                {% else %}
+                <div class="col-7 d-flex justify-content-end mt-2">
+                    <a class="bg-light" href="{% url 'store' %}?ac='accessories_store'">
+                        <button type="button" class="btn btn-outline-dark rounded-0 btn-md border border-2 border-top-0 border-bottom-0 border-end-0 border-warning px-4 d-flex align-items-center justify-content-center" id="ac-button">
+                            Перейти до аксесуарів
+                            <span class="vr mx-2"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                            </svg>
+                        </button>
+                    </a>
+                </div>
+                {% endif %}
+
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasLeft" aria-labelledby="offcanvasLeftLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasLeftLabel">Фільтр</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        {% if ac %}
+                        <form>
+                            <div class="display-6 border-start border-3 border-warning bg-white text-dark rounded-0 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                <span class="ms-3">Оберіть тип:</span>
+                            </div>
+                            <ul class="list-group rounded-0 mb-3">
+                                <div class="row">
+                                {% for key, value in view.get_parameters.accessories_type.items %}
+                                    <span class="col-12">
+                                        <li class="list-group-item border-0">
+                                            <input class="form-check-input me-1" type="checkbox" value="{{key}}" id="accessories_type" name="accessories_type">
+                                            <label class="form-check-label" for="accessories_type">{{ value }}</label>
+                                        </li>
+                                    </span>
+                                {% endfor %}
+                                </div>
+                            </ul>
+                            <button type="submit" class="btn btn-warning rounded-0 opacity-75 w-100"
+                                hx-get="{% url 'store' %}?ac='accessories_store'"
+                                hx-trigger="click"
+                                hx-target="#all-items"
+                                hx-select="#all-items"
+                                hx-include="#accessories_type"
+                                hx-push-url="true"
+                                hx-swap="outerHTML" data-bs-dismiss="offcanvas">
+                                Підтвердити
+                            </button>
+                        </form>
+                        {% elif plg %}
+                        <form>
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item border-0">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed border-start border-3 border-warning bg-white text-dark rounded-0 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                            Оберіть потужність
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseThree" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <div class="btn-group d-flex justify-content-center" role="group" aria-label="Vertical radio toggle button group">
+                                              <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked data-bs-toggle="collapse" data-bs-target="#collapseAmper" aria-expanded="false" aria-controls="collapseAmper">
+                                              <label class="btn btn-outline-danger rounded-0" for="vbtn-radio1">Ампери</label>
+                                              <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off" data-bs-toggle="collapse" data-bs-target="#collapseKvt" aria-expanded="false" aria-controls="collapseKvt">
+                                              <label class="btn btn-outline-danger rounded-0" for="vbtn-radio2">Кіловати</label>
+                                        </div>
+                                        <div class="collapse show" id="collapseAmper" data-bs-parent="#collapseThree">
+                                            <div class="card card-body rounded-0">
+                                                <ul class="list-group rounded-0">
+                                                {% for parameters in view.get_parameters.power_amps_plugs %}
+                                                <li class="list-group-item border-0">
+                                                    <input class="form-check-input me-1" type="checkbox" value="{{ parameters }}" id="power_amps_plugs" name="power_amps_plugs">
+                                                    <label class="form-check-label" for="power_amps_plugs">{{parameters}} Ампер</label>
+                                                </li>
+                                                {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="collapse" id="collapseKvt" data-bs-parent="#collapseThree">
+                                            <div class="card card-body rounded-0">
+                                                <ul class="list-group rounded-0">
+                                                {% for parameters in view.get_parameters.power %}
+                                                <li class="list-group-item border-0">
+                                                    <input class="form-check-input me-1" type="checkbox" value="{{ parameters }}" id="power" name="power">
+                                                    <label class="form-check-label" for="power">{{parameters}} кВт</label>
+                                                </li>
+                                                {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item border-0">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed border-start border-3 border-warning bg-white text-dark rounded-0 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                            Оберіть кількість фаз
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseFour" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <ul class="list-group rounded-0 mb-3">
+                                           {% for parameters in view.get_parameters.phases %}
+                                             <li class="list-group-item">
+                                                <input class="form-check-input me-1" type="checkbox" value="{{ parameters }}" id="phases" name="phases">
+                                                <label class="form-check-label" for="phases">{{parameters}}</label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        {% else %}
+                        <form>
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item border-0">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed border-start border-3 border-warning bg-white text-dark rounded-0 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Оберіть тип обладнання
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseOne" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <ul class="list-group rounded-0 mb-3">
+                                        {% for parameters in view.get_parameters.categories %}
+                                            <li class="list-group-item">
+                                                <input class="form-check-input me-1" type="checkbox" value="{{ parameters }}" id="categories" name="categories">
+                                                <label class="form-check-label" for="categories">
+                                                    {% if parameters == 1 %}
+                                                    Зарядні пристрої
+                                                    {% elif parameters == 2 %}
+                                                    Зарядні кабелі
+                                                    {% endif %}
+                                                </label>
+                                            </li>
+                                        {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="accordion-item border-0">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed border-start border-3 border-warning bg-white text-dark rounded-0 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                            Оберіть тип роз'єму
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseTwo" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <ul class="list-group rounded-0 mb-3">
+                                            {% for parameters in view.get_parameters.types %}
+                                            <li class="list-group-item">
+                                                <input class="form-check-input me-1" type="checkbox" value="{{ parameters }}" id="type" name="type">
+                                                <label class="form-check-label" for="type">{{parameters}}</label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="accordion-item border-0">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed border-start border-3 border-warning bg-white text-dark rounded-0 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                            Оберіть потужність
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseThree" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <div class="btn-group d-flex justify-content-center" role="group" aria-label="Vertical radio toggle button group">
+                                              <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked data-bs-toggle="collapse" data-bs-target="#collapseAmper" aria-expanded="false" aria-controls="collapseAmper">
+                                              <label class="btn btn-outline-danger rounded-0" for="vbtn-radio1">Ампери</label>
+                                              <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off" data-bs-toggle="collapse" data-bs-target="#collapseKvt" aria-expanded="false" aria-controls="collapseKvt">
+                                              <label class="btn btn-outline-danger rounded-0" for="vbtn-radio2">Кіловати</label>
+                                        </div>
+                                        <div class="collapse show" id="collapseAmper" data-bs-parent="#collapseThree">
+                                            <div class="card card-body rounded-0">
+                                                <ul class="list-group rounded-0">
+                                                {% for parameters in view.get_parameters.powers_amps %}
+                                                <li class="list-group-item border-0">
+                                                    <input class="form-check-input me-1" type="checkbox" value="{{ parameters }}" id="power_amps" name="power_amps">
+                                                    <label class="form-check-label" for="power_amps">{{parameters}} Ампер</label>
+                                                </li>
+                                                {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="collapse" id="collapseKvt" data-bs-parent="#collapseThree">
+                                            <div class="card card-body rounded-0">
+                                                <ul class="list-group rounded-0">
+                                                {% for parameters in view.get_parameters.power %}
+                                                <li class="list-group-item border-0">
+                                                    <input class="form-check-input me-1" type="checkbox" value="{{ parameters }}" id="power" name="power">
+                                                    <label class="form-check-label" for="power">{{parameters}} кВт</label>
+                                                </li>
+                                                {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item border-0">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed border-start border-3 border-warning bg-white text-dark rounded-0 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                            Оберіть кількість фаз
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseFour" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <ul class="list-group rounded-0 mb-3">
+                                           {% for parameters in view.get_parameters.phases %}
+                                             <li class="list-group-item">
+                                                <input class="form-check-input me-1" type="checkbox" value="{{ parameters }}" id="phases" name="phases">
+                                                <label class="form-check-label" for="phases">{{parameters}}</label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="accordion-item border-0">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed border-start border-3 border-warning bg-white text-dark rounded-0 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                            Оберіть потрібний бренд
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseFive" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <ul class="list-group rounded-0 mb-3">
+                                            {% for parameters in view.get_parameters.brands %}
+                                            <li class="list-group-item">
+                                                <input class="form-check-input me-1" type="checkbox" value="{{ parameters }}" id="brand" name="brand">
+                                                <label class="form-check-label" for="brand">{{parameters}}</label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            <button type="submit" class="btn btn-warning opacity-75 rounded-0 w-100"
+                                hx-get="{% url 'store' %}"
+                                hx-trigger="click"
+                                hx-target="#all-items"
+                                hx-select="#all-items"
+                                hx-include="#categories, #type, #power_amps, #power, #phases, #brand"
+                                hx-push-url="true"
+                                hx-swap="outerHTML" data-bs-dismiss="offcanvas">
+                                Пошук
+                            </button>
+                            </div>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        <div class="row">
+
+            <!--  all items list  -->
+            <div id="all-items" class="col-12">
+                <div class="col-12">
+                    {% if q %}
+                    <div class="col-12 bg-light fs-3 fw-light p-1">Результати за запитом:
+                        <span class="text-warning">{{q}}</span>
+                        <a href="{% url 'store' %}">
+                        <button type="button" class="btn btn-lg btn-close"></button>
+                        </a>
+                    </div>
+                    {% elif parameters_list %}
+                    <div class="col-12 bg-light fs-3 fw-light p-1">
+                        <span class="bg-light fs-3 fw-light p-1">Результати за параметрами <badge class="text-warning">фільтру:</badge></span>
+                        {% if ac %}
+                        <a href="{% url 'store' %}?ac='accessories_store'">
+                            <button type="button" class="btn btn-lg btn-close"></button>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'store' %}">
+                            <button type="button" class="btn btn-lg btn-close"></button>
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% elif plg %}
+                    <div class="models_list"
+                         hx-get="{% url 'active_buttons' %}?q=header-pc-category-3"
+                         hx-target="#category-3"
+                         hx-trigger="revealed"
+                         hx-swap="innerHTML transition:true">
+                    </div>
+                    <p class="col-5 bg-light fs-3 fw-light p-1">Всі представлені на сайті <badge class="text-warning">розетки і перехідники</badge>:</p>
+                    {% elif ac %}
+                    <div class="models_list"
+                         hx-get="{% url 'active_buttons' %}?q=header-pc-category-4"
+                         hx-target="#category-4"
+                         hx-trigger="revealed"
+                         hx-swap="innerHTML transition:true">
+                    </div>
+                    <p class="col-5 bg-light fs-3 fw-light p-1">Всі представлені на сайті <badge class="text-warning">аксесуари</badge>:</p>
+                    {% else %}
+                    <p class="col-5 bg-light fs-3 fw-light p-1">Всі представлені на сайті товари:</p>
+                    {% endif %}
+                </div>
+
+                <div class="row">
+                    <!-- item card -->
+                    {% for item in items %}
+                    <div id="modals-here"
+                        class="modal modal-blur fade"
+                        style="display: none"
+                        aria-hidden="false"
+                        tabindex="-1">
+                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                            <div class="modal-content"></div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-lg-4 col-md-6 col-sm-6 position-relative">
+                        <div id="item-store-card" class="card d-block mx-auto position-relative border-0 border-bottom border-3" style="width: 20rem;">
+                            <div id="quick_view_{{item.slug}}" class="position-absolute"></div>
+
+                            {% if chargersitems_images|get_item:item.slug %}
+                                {% for model in item.model.all %}
+                                    {% if forloop.first %}
+                                        {% for image in chargersitems_images|get_item:item.slug %}
+                                        <a href="{% url 'item_detail' category=item.category.slug model=model.slug charger_slug=item.slug %}">
+                                            <img src="{{ image }}" class="bd-placeholder-img card-img-top" width="100%">
+                                        </a>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+                                {% endif %}
+
+                            <div class="position-absolute top-0 end-0 p-2">
+                                <div class="row">
+                                {% if item.sale_price %}
+                                    <p class="col-8 bg-light text-success rounded-4 mt-3">Знижка!</p>
+                                {% endif %}
+                                {% for model in item.model.all %}
+                                    {% if forloop.first %}
+                                    <button type="submit" class="col-4 btn quick-{{item.slug}}"
+                                        hx-get="{% url 'quick_view' category=item.category.slug model=model.slug charger_slug=item.slug %}"
+                                        hx-target="#modals-here"
+                                        hx-trigger="click"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modals-here">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-fullscreen opacity-50" viewBox="0 0 16 16">
+                                            <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                                        </svg>
+                                    </button>
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                {% if item.in_stock == 'True' %}
+                                <div class="bottom-0 start-0 text-start">
+                                    <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                                        В наявності
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                {% elif item.in_stock == 'False' %}
+                                <div class="bottom-0 start-0 text-start">
+                                    <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                                        Немає в наявності
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                {% elif item.in_stock == 'pending' %}
+                                <div class="bottom-0 start-0 text-start">
+                                    <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                                        Під замовлення
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                                        </svg>
+                                    </span>
+                                </div>
+                                {% endif %}
+
+                                {% if user_agent.is_mobile %}
+                                    {% for model in item.model.all %}
+                                        {% if forloop.first %}
+                                        <a class="link-dark" href="{% url 'item_detail' category=item.category.slug model=model.slug charger_slug=item.slug %}">
+                                            <h6 class="card-title display-6 bg-light">{{item.title}}</h6>
+                                        </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+
+                                {% for model in item.model.all %}
+                                    {% if forloop.first %}
+                                    <a class="link-dark" href="{% url 'item_detail' category=item.category.slug model=model.slug charger_slug=item.slug %}">
+                                        <h6 class="card-title fw-light fs-5 bg-light">{{item.title}}</h6>
+                                    </a>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% endif %}
+                                <h6 class="text-muted fw-normal fs-6 small">{{item.category}}</h6>
+
+                            </div>
+                            <ul class="list-group border-top-0 rounded-0">
+                                <li class="list-group-item border-0">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            {% if item.sale_price %}
+                                            <div class="container text-dark text-start">
+                                                <p class="fw-semibold fs-5 text-success">{{ item.sale_price|multiply:currency}} {{currency_token}}</p>
+                                            </div>
+                                            {% else %}
+                                            <div class="container text-dark text-start">
+                                                <p class="fw-semibold fs-5">{{ item.price|multiply:currency}} {{currency_token}}</p>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        {% if item.in_stock == 'False' %}
+                                        <span class="col-3"
+                                            hx-get="{% url 'order_quick' item.slug %}"
+                                            hx-target="#contact-modals-here"
+                                            hx-trigger="click"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#contact-modals-here">
+                                            <button type="button" class="btn btn-light rounded-pill opacity-25 btn-sm">
+                                                {% load static %}<img src="{% static 'store/Checkout 01.svg' %}" width="30" height="30">
+                                            </button>
+                                        </span>
+                                        {% else %}
+                                        <span class="col-3">
+                                            <form id="add-cart-button-{{item.slug}}"
+                                                hx-post="{% url 'add_to_cart' item.slug 'add-cart-button' %}"
+                                                hx-trigger="click"
+                                                hx-target="#header_menu_cart_button"
+                                                hx-swap="outerHTML transition:true">
+
+                                                {% csrf_token %}
+                                                <button type="button" class="btn rounded-pill bg-light btn-sm">
+                                                    {% load static %}<img src="{% static 'store/Checkout 01.svg' %}" width="30" height="30">
+                                                </button>
+                                            </form>
+                                        </span>
+                                        {% endif %}
+                                        <div class="col-4 text-right">
+                                            <button type="button" class="btn btn-warning btn-md opacity-75 rounded-0 shadow"
+                                                hx-get="{% url 'order_quick' item.slug %}"
+                                                hx-target="#contact-modals-here"
+                                                hx-trigger="click"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#contact-modals-here">
+                                                Купити
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <br>
+                    </div>
+                    {% endfor %}
+                </div>
+
+        <!--  pagination menu  -->
+                {% if is_paginated %}
+                <nav aria-label="Page navigation" class="d-flex justify-content-center pt-2">
+                    <ul class="pagination opacity-75">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item me-1" type="button">
+                            <a class="page-link link-warning border-end-0 rounded-0" hx-get="?{{ queries }}&amp;page={{ page_obj.first_page }}" hx-target="#all-items" hx-select="#all-items" hx-swap="outerHTML" hx-push-url="true" aria-label="Previous">
+                                <span aria-hidden="true" class="fs-5 d-flex align-items-center">
+                                    1
+                                </span>
+                            </a>
+                        </li>
+                        <li class="page-item me-1" type="button">
+                            <a class="page-link link-warning border-end-0 rounded-0" hx-get="?{{ queries }}&amp;page={{ page_obj.previous_page_number }}" hx-target="#all-items" hx-select="#all-items" hx-swap="outerHTML" hx-push-url="true" aria-label="Previous">
+                                <span aria-hidden="true" class="fs-5 d-flex align-items-center">&laquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled" type="button">
+                            <span class="page-link border-0 fs-5 d-flex align-items-center" aria-hidden="true">&laquo;</span>
+                        </li>
+                        {% endif %}
+
+                        {% for p in page_obj.paginator.page_range %}
+                            {% if p == page_obj.number %}
+                        <li class="page-item fw-light border border-0 border-bottom">
+                            <div class="p-1 mt-1">
+                            сторінка <span class="text-warning">{{p}}</span> з {{page_obj.paginator.num_pages}}
+                            </div>
+                        </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item ms-1" type="button">
+                            <a class="page-link link-warning border-start-0 rounded-0" hx-get="?{{ queries }}&amp;page={{ page_obj.next_page_number }}" hx-target="#all-items" hx-select="#all-items" hx-swap="outerHTML" hx-push-url="true" aria-label="Next">
+                                <span aria-hidden="true" class="fs-5 d-flex align-items-center">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item ms-1" type="button">
+                            <a class="page-link link-warning border-start-0 rounded-0" hx-get="?{{ queries }}&amp;page={{ page_obj.paginator.num_pages }}" hx-target="#all-items" hx-select="#all-items" hx-swap="outerHTML" hx-push-url="true" aria-label="Previous">
+                                <span aria-hidden="true" class="fs-5 d-flex align-items-center">
+                                    {{page_obj.paginator.num_pages}}
+                                </span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link border-0 fs-5 d-flex align-items-center" aria-hidden="true">&raquo;</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="container">
+    <div class="accordion" id="accordionFlushExample">
+        <div class="accordion-item border border-2">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                Як правильно підібрати обладнання?
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">{{article.main_text | safe}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("htmx:afterOnLoad", function(evt) {
+        var element = document.getElementById("main-div");
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+        }
+    });
+</script>
+{% endblock %}
+
+<!--{% for p in page_obj.paginator.page_range %}-->
+<!--                            {% if p == page_obj.number %}-->
+<!--                            <li class="page-item active" aria-current="page" type="button">-->
+<!--                                <span class="page-link bg-secondary bg-light text-dark border-warning">{{ p }}</span>-->
+<!--                            </li>-->
+<!--                            {% else %}-->
+<!--                            <li class="page-item focus-ring" type="button">-->
+<!--                                <a class="page-link link-dark" hx-get="?{{ queries }}&amp;page={{ p }}" hx-target="#all-items" hx-select="#all-items" hx-swap="outerHTML" hx-push-url="true">{{ p }}</a>-->
+<!--                            </li>-->
+<!--                            {% endif %}-->
+<!--                        {% endfor %}-->

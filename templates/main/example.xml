@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+<channel>
+<title>Example - Google Store</title>
+<link>https://store.google.com</link>
+<description>This is an example of a basic RSS 2.0 document containing a single item</description>
+{% for item in query %}
+<item>
+
+<g:id>{{item.product.slug}}</g:id>
+<g:title>Зарядний пристрій {{item.product.title}}</g:title>
+<g:description>{{item.product.description}}</g:description>
+<g:link>https://store.google.com/product/chromecast_google_tv</g:link> <g:image_link>https://evhub.ua/{{item.product.image}}</g:image_link> <g:condition>new</g:condition>
+<g:availability>in stock</g:availability>
+<g:price>{{item.min_price}} UAH</g:price>
+<g:shipping>
+
+<g:country>UA</g:country>
+<g:service>Standard</g:service>
+<g:price>{{item.min_price}} UAH</g:price>
+
+</g:shipping>
+<g:brand>{{item.product.brand}}</g:brand>
+
+</item>
+{% endfor %}
+</channel>
+</rss>

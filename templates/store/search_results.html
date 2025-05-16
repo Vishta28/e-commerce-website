@@ -1,0 +1,46 @@
+<div class="search-results">
+    <ul class="list-group">
+        {% if items %}
+            {% for item in items|slice:":7" %}
+                {% for model in item.model.all %}
+                    {% if forloop.first %}
+                    <a href="{% url 'item_detail' category=item.category.slug model=model.slug charger_slug=item.slug %}">
+                        <li class="searchTrue list-group-item list-group-item-action rounded-0">
+                            <div class="row">
+                                <div class="col-2 d-flex align-items-center justify-content-center">
+                                    <div class="image container">
+                                        {% for image in chargersitems_images|get_item:item.slug %}
+                                        <img src="{{ image }}" style="max-width: 50px; max-height: 50px;">
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-10 d-flex align-items-center justify-content-center">
+                                    <div class="title container fw-light">
+                                        {{ item.title }} - <b>{{ item.price|multiply:currency_price}} {{currency_token}}</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </a>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+            {% if items %}
+            <button type="submit" class="btn btn-sm fs-6 bg-white rounded-0 shadow">
+                <h6>Переглянути всі товари ({{ items|length }})</h6>
+            </button>
+            {% endif %}
+
+        {% else %}
+            <li class="searchNone list-group-item list-group-item-action shadow rounded-0"
+                hx-ext="class-tools" classes="add d-none:4s">
+                <div class="col-10 d-flex align-items-center justify-content-center">
+                    <div class="title container">
+                        <h5>Нажаль по вашому запиту нічого не знайдено</h5>
+                    </div>
+                </div>
+            </li>
+        {% endif %}
+    </ul>
+</div>

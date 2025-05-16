@@ -1,0 +1,93 @@
+{% if context == 'favorites' %}
+    <div>
+        <a href="{% url 'favorites' %}" type="submit" class="btn btn-white rounded-0 opacity-75 btn-lg" id="favorite_active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="orange" class="bi bi-heart-fill" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+            </svg>
+        </a>
+    </div>
+{% endif %}
+
+{% if context == 'comparison' %}
+<div>
+    <a href="{% url 'comparison' %}" type="submit" class="btn btn-white rounded-0 opacity-75 btn-lg" id="comparison_active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="orange" class="bi bi-layers-half mb-1" viewBox="0 0 16 16">
+            <path d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882zM8 9.433 1.562 6 8 2.567 14.438 6z"/>
+        </svg>
+    </a>
+</div>
+{% endif %}
+
+{% if context == 'order_confirm' %}
+<div id="order-confirm-group" class="row">
+<p class="col-12 text-center fs-5">Підтвердити замовлення?</p>
+    <div class="btn-group col-12 opacity-75" role="group" aria-label="Basic mixed styles example">
+        <button type="submit" class="btn btn-warning mt-2"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            hx-post="{% url 'order_confirm' %}"
+            hx-trigger="click"
+            hx-swap="innerHTML transition:true settle:0.5s"
+            hx-target="body"
+            hx-ext="loading-states">
+            Так, підтвердити
+        </button>
+        <button type="reset" class="btn btn-secondary mt-2"
+              hx-get="{% url 'active_buttons' %}?q=order_reverse"
+              hx-trigger="click"
+              hx-swap="innerHTML transition:true"
+              hx-target="#order-confirm-div">
+            Скасувати
+        </button>
+    </div>
+</div>
+{% endif %}
+
+{% if context == 'order_reverse' %}
+<button id="order_confirm_button" type="submit" class="btn btn-warning opacity-75 mt-2"
+    hx-get="{% url 'active_buttons' %}?q=order_confirm"
+    hx-trigger="click"
+    hx-swap="outerHTML transition:true">
+    Підтвердити замовлення
+</button>
+{% endif %}
+
+{% if context == 'to-store-button' %}
+<a id="to-store-button" class="d-flex justify-content-center p-1 mt-4" href="{% url 'models_menu' %}">
+    <button class="btn btn-secondary opacity-75 rounded-pill fs-6 fw-light shadow">
+        перейти до магазину
+    </button>
+</a>
+{% endif %}
+
+{% if context == 'header-pc-category-1' %}
+    <a href="{% url 'models_page' category='charging_stations' %}" class="nav-link-header-bottom px-2 text-secondary border-bottom border-2 border-warning link-secondary">
+       {% load static %}<img class="mb-1" src="{% static 'store/EV CHARGING STATIONS.active.svg' %}" width="22" height="22">
+       <span class="d-none d-md-inline d-lg-none">Зарядки</span>
+       <span class="d-inline d-md-none d-lg-inline">Зарядні пристрої</span>
+    </a>
+{% endif %}
+
+{% if context == 'header-pc-category-2' %}
+<a href="{% url 'models_page' category='charging_cables' %}" class="nav-link-header-bottom px-2 text-secondary border-bottom border-warning border-2">
+    {% load static %}<img class="mb-1" src="{% static 'store/EV CHARGING CABLES.active.svg' %}" width="22" height="22">
+    Зарядні кабелі
+</a>
+{% endif %}
+
+{% if context == 'header-pc-category-3' %}
+<a href="{% url 'store' %}?plg='plugs_adapters'" class="nav-link-header-bottom px-2 text-secondary border-bottom border-warning border-2">
+    {% load static %}<img class="mb-1" src="{% static 'store/EV ELECTRIC ADAPTERS.active.svg' %}" width="22" height="22">
+    <span class="d-none d-md-inline d-lg-none">Перехідники</span>
+    <span class="d-inline d-md-none d-lg-inline">Розетки і перехідники</span>
+</a>
+{% endif %}
+
+{% if context == 'header-pc-category-4' %}
+<a href="{% url 'store' %}?ac='accessories_store'" class="nav-link-header-bottom px-2 text-secondary border-bottom border-warning border-2">
+    {% load static %}<img class="mb-1" src="{% static 'store/EV ACCESSORIES.active.svg' %}" width="22" height="22">
+    <span class="d-none d-md-inline d-lg-none">Аксесуари</span>
+    <span class="d-inline d-md-none d-lg-inline">Аксесуари та інше</span>
+</a>
+{% endif %}
+

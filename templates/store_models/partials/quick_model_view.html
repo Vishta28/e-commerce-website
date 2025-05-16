@@ -1,0 +1,72 @@
+<div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class="modal-header row border-0">
+            <div class="col-10">
+                <h5 class="modal-title">{{item.title}}</h5>
+                {{item.model.slug}}
+            </div>
+            <div class="col-2 d-flex justify-content-center">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+        </div>
+        <div class="d-lg-none d-xl-none d-xxl-none card rounded-0 border border-0 border-warning border-1 border-opacity-75 p-3">
+            <small class="text-sm">{{item.description}}</small>
+            <hr/>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-6 col-lg-4">
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <img src="{{ item.gif.url }}" class="card-img img-fluid rounded-start" style="max-height: 300px;" alt="{{ item.gif.url }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-4 d-flex align-items-center justify-content-center">
+                    <ul class="list-group list-group-flush text-center small">
+                        <li class="list-group-item">Доступні роз'єми:
+                            {% for type in available_types %}
+                                <span class="ms-1 {% cycle 'border-0 border-1 border-bottom border-info border-opacity-75' 'border-0 border-1 border-bottom border-success border-opacity-75' 'border-0 border-1 border-bottom border-warning border-opacity-75' 'border-0 border-1 border-bottom border-danger border-opacity-75' %}">{{type.type}}</span>
+                            {% endfor %}
+                        </li>
+                        <li class="list-group-item">Доступні фази:
+                            {% for phase in phases %}
+                                <span class="ms-1 {% cycle 'border-0 border-1 border-bottom border-info border-opacity-75' 'border-0 border-1 border-bottom border-success border-opacity-75' %}">{{phase.phases}}</span>
+                            {% endfor %}
+                        </li>
+                        <li class="list-group-item">Захист:
+                            {% for protect in protection %}
+                                {{protect.protection}}
+                            {% endfor %}
+                        </li>
+                        <li class="list-group-item">Бренд:
+                            {% for parameter in brand %}
+                                {{parameter.brand}}
+                            {% endfor %}
+                        </li>
+                        <li class="list-group-item">Країна виробник:
+                            {% for parameter in country %}
+                                {{parameter.country}}
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+                <div class="d-none d-lg-block col-lg-4 card p-3 border-0 border-start border-2 border-warning rounded-0 bg-light">
+                    <small class="text-sm">{{item.description}}</small>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+            <div class="btn-group shadow d-flex justify-content-center align-items-center">
+                <button type="button" id="quick-view-cart-button" class="btn btn-warning btn-md rounded-0 opacity-75" data-toggle="modal" data-target="#staticBackdrop"
+                    hx-get="{% url 'order_model_quick' item.category.slug item.slug %}"
+                    hx-target="#staticBackdrop"
+                    hx-trigger="click"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">
+                    Купити в один клік
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
