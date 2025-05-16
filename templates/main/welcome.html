@@ -1,0 +1,120 @@
+ {% extends 'main/main.html' %}
+
+{% block title %}
+Головна сторінка
+{% endblock %}
+
+
+{% block content %}
+<div class="row body" style="width: 100%; margin: 0; padding: 0;">
+    <div class="col-xxl-9 col-lg-11 col-md-10 mx-auto mt-2 p-1 border-light">
+        <div class="row">
+            <div class="col-12 d-none">
+                <div class="rounded-0 border border-secondary p-1 mb-3 mt-2 bg-warning bg-opacity-25 text-center">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.</p>
+                </div>
+            </div>
+
+            <!--  carousel  -->
+            <div class="col-12 mb-4">
+                  <div id="carouselExampleDark" class="carousel carousel-dark carousel-fade slide p-1" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner col-12">
+                      <div class="carousel-item active" data-bs-interval="6000">
+                        {% load static %}<img src="{% static 'store/delete_this-static1.jpg' %}" class="d-block w-100" style="height: 400px;" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>First slide label</h5>
+                          <p>Some representative placeholder content for the first slide.</p>
+                        </div>
+                      </div>
+                      <div class="carousel-item" data-bs-interval="6000">
+                        {% load static %}<img src="{% static 'store/2025-03-05 15.27.02 - Реалістичне фото електромобіля.png' %}" class="d-block w-100" style="height: 400px;" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>Second slide label</h5>
+                          <p>Some representative placeholder content for the second slide.</p>
+                        </div>
+                      </div>
+                      <div class="carousel-item" data-bs-interval="6000">
+                        {% load static %}<img src="{% static 'store/delete_this-static3.jpg' %}" class="d-block w-100" style="height: 400px;" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>Third slide label</h5>
+                          <p>Some representative placeholder content for the third slide.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+
+
+            <!--  charging stations menu  -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <a href="{% url 'models_page' category='charging_stations' %}">
+                    <div class="card text-dark shadow" id="welcome-card1">
+                        {% load static %} <img src="{% static 'store/EVHUB Charging Stations for electric vehicles 1100 dark.png' %}" class="card-img opacity-75" alt="image">
+                        <div class="card-img-overlay">
+                            <h5 class="card-title text-warning">Зарядні пристрої</h5>
+                            <p class="card-text text-white">Зарядні пристрої для електромобілів це основний гаджет котрий має бути у кожного електромобіліста.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!--  charging cables menu  -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <a href="{% url 'models_page' category='charging_cables' %}">
+                    <div class="card text-dark shadow" id="welcome-card2">
+                        {% load static %} <img src="{% static 'store/EVHUB Charging Cables for electric vehicles 2 1100 dark.png' %}" class="card-img opacity-75" alt="image">
+                        <div class="card-img-overlay">
+                            <h5 class="card-title text-warning">Зарядні кабелі</h5>
+                            <p class="card-text text-white">Зарядні кабелі допоможуть вам зарядитися на публічних зарядках вашого міста.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!--  plugs menu  -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <a href="{% url 'store' %}?plg='plugs_adapters'">
+                    <div class="card text-light shadow" id="welcome-card3">
+                        {% load static %} <img src="{% static 'store/EVHUB Electric and charging adapters for electric vehicles 1100 dark.png' %}" class="card-img opacity-75" alt="image">
+                        <div class="card-img-overlay">
+                            <h5 class="card-title text-warning">Розетки і перехідники</h5>
+                            <p class="card-text">Допоміжні аксесуари для вашого зарядного обладнання</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!--  accessories menu  -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <a class="bg-light" href="{% url 'store' %}?ac='accessories_store'">
+                    <div class="card text-light shadow" id="welcome-card4">
+                        {% load static %} <img src="{% static 'store/EVHUB Accessories for electric vehicles 1100.png' %}" class="card-img opacity-75" alt="image" style="filter: brightness(50%);">
+                        <div class="card-img-overlay">
+                            <h5 class="card-title text-warning">Аксесуари</h5>
+                            <p class="card-text">Різноманітні аксесуари для вашого автомобіля та обладнання</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-12 border border-0 border-top border-2 border-warning border-opacity-75 mt-4">
+            <button class="btn btn-warning fs-5 rounded-0 opacity-75" style="position: absolute; z-index: 10;">Товари</button>
+            <div id="favorite_products">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-grow text-warning mt-5" role="status"></div>
+                </div>
+                <span hx-get="{% url 'favorite_products' %}"
+                      hx-target="#favorite_products"
+                      hx-trigger="revealed"
+                      hx-swap="innerHTML transition:true">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'main/main.html' %}
+
+
+{% block title %}
+Замовлення
+{% endblock %}
+
+{% block content %}
+<style>
+.non-clickable {
+    pointer-events: none;
+}
+</style>
+<div class="container-fluid mt-4" xmlns="http://www.w3.org/1999/html">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-lg-12 col-xl-11 col-xxl-9">
+            <div class="border-bottom bg-light">
+                <h6 class="text-center display-6">Оформлення замовлення:</h6>
+            </div>
+            <p class="bg-light mt-2 text-center fs-5"> Крок 2 з 2</p>
+            <div class="progress rounded-0" role="progressbar" aria-label="Example with label" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar text-center bg-success" style="width: 100%">перевірте і підтвердіть замовлення:</div>
+            </div>
+            <form method="post" action="{% url 'order_confirm' %}">
+                {% csrf_token %}
+                <div class="row mt-4 p-1">
+                    <div class="col-sm-12 col-md-6 col-lg-6 border border-success border-2 bg-light">
+                        <div class="d-flex justify-content-center">
+                            <span class="p-5" style="position: absolute; z-index: 999;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="opacity-50 non-clickable mt-5">
+                            {{ form.as_p }}
+                        </div>
+                    </div>
+                    <div id="step2" class="col-sm-12 col-md-6 col-lg-6 bg-light pt-1">
+                        <p class="text-center bg-warning opacity-75 fs-5">Перевірте та підтвердіть замовлення</p>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-muted">Назва</th>
+                                    <th class="text-muted">Кількість</th>
+                                    <th class="text-muted">Ціна</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for items in product_list %}
+                            <tr>
+                                <td>{{items.product}}</td>
+                                <td>{{items.quantity}}</td>
+                                <td>{{items.price}}{{currency_token}}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <p class="text-center bg-light border border-0 border-bottom border-2 border-warning fs-5">Загальна ціна: {{total_cost}} {{currency_token}}</p>
+                        <p class="text-center bg-light fs-5">Ваші данні:</p>
+                        <div class="row border d-flex justify-content-center">
+                            <p class="col-6 text-center mt-1"><b>Ім'я:</b> {{order_form_data.name}}</p>
+                            <p class="col-6 text-center mt-1"><b>Номер:</b> {{order_form_data.phone_number}}</p>
+                            {% if order_form_data.email %}
+                            <p class="col-6 text-center"><b>Email:</b> {{order_form_data.email}}</p>
+                            {% endif %}
+                            <p class="col-6 text-center"><b>Спосіб оплати:</b> {{payment_type_display}}</p>
+                            <p class="col-6 text-center"><b>Спосіб доставки:</b> {{shipping_type_display}}</p>
+                            {% if order_form_data.shipping_address %}
+                            <p class="col-6 text-center"><b>Адреса доставки:</b> {{order_form_data.shipping_address}}</p>
+                            {% endif %}
+                            {% if order_form_data.comment %}
+                            <p class="col-6 text-center"><b>Коментар:</b> Ви залишили коментар!</p>
+                            {% endif %}
+                        </div>
+
+                        <div id="order-confirm-div" class="d-flex justify-content-center opacity-75">
+                            <button type="submit" class="btn btn-success w-100 rounded-0 mt-2" data-loading-class="d-none"
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop"
+                                hx-post="{% url 'order_confirm' %}"
+                                hx-trigger="click"
+                                hx-swap="innerHTML transition:true settle:0.5s"
+                                hx-target="body"
+                                hx-ext="loading-states">
+                                Підтвердити замовлення
+                            </button>
+                            <button id="order_confirm_loading" type="submit" class="btn btn-warning w-100 rounded-0 mt-2 opacity-75 d-none"
+                                hx-get="{% url 'loader' %}"
+                                hx-trigger="revealed"
+                                hx-target="#staticBackdrop"
+                                hx-swap="innerHTML"
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop"
+                                data-loading-class-remove="d-none">
+                                Обробляємо замовлення...
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var element = document.getElementById("step2");
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+        }
+    });
+</script>
+{% endblock %}

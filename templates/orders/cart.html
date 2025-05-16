@@ -1,0 +1,106 @@
+{% block content %}
+<style>
+    tr.htmx-swapping td {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}
+    .card.htmx-swapping {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}
+</style>
+<div class="modal-dialog modal-lg modal-dialog-scrollable rounded-2">
+    <div class="modal-content">
+        <div class="row p-2 ps-3 border">
+            <div class="col-6 d-flex justify-content-start">
+                <h5>Ваш кошик:</h5>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+        </div>
+        {% if request.session.cart %}
+        <div id="cart-total" class="row p-3">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-12"
+                        hx-get="{% url 'cart_items_total' %}"
+                        hx-trigger="update_cart from:body"
+                        hx-swap="innerHTML">
+                        {% include 'orders/partials/cart_items_total.html' %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="container"
+                    hx-get="{% url 'cart_total' %}"
+                    hx-trigger="update_cart from:body"
+                    hx-swap="innerHTML">
+                    {% include 'orders/partials/cart_total.html' %}
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-body">
+
+            <div id="cart-products" class="row p-2">
+                {% if user_agent.is_mobile %}
+                <div class="container" hx-target="closest div" hx-value="{{item.slug}}" hx-swap="outerHTML swap:1s">
+                    {% for item in cart %}
+                        {% include 'orders/partials/cart_item_mob.html' %}
+                    {% endfor %}
+                </div>
+                {% elif user_agent.is_tablet %}
+                <div class="container" hx-target="closest div" hx-value="{{item.slug}}" hx-swap="outerHTML swap:1s">
+                    {% for item in cart %}
+                        {% include 'orders/partials/cart_item_mob.html' %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="col-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                </th>
+                                <th class="text-muted">Назва</th>
+                                <th class="text-muted">Кількість</th>
+                                <th class="text-muted">Ціна</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody hx-target="closest tr" hx-value="{{item.slug}}" hx-swap="outerHTML swap:1s">
+                        {% for item in cart %}
+                            {% include 'orders/partials/cart_item.html' %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="{% url 'order_step1' %}">
+                <button class="btn btn-warning rounded-0 opacity-75">
+                    Оформити замволення
+                </button>
+            </a>
+        </div>
+        {% else %}
+        <div id="cart-empty" class="container text-center bg-light p-2">
+            {% if user_agent.is_mobile %}
+            {% load static %} <img class="d-block mx-auto opacity-50 rounded-pill border border-2 border-warning" src="{% static 'store/photo_2024-05-07_13-05-43.jpg' %}" width="300" height="180">
+            <p id="cart-text2" class="cart-text rounded-pill">До кошику поки не додано товарів
+                <a href="{% url 'store' %}" class="btn btn-warning mt-1 rounded-pill">до магазину</a>
+            </p>
+            {% else %}
+            {% load static %} <img class="d-block mx-auto opacity-50 rounded-pill border border-2 border-warning" src="{% static 'store/photo_2024-05-07_13-05-43.jpg' %}" width="500" height="300">
+            <p id="cart-text" class="cart-text rounded-pill">До кошику поки що не додано товарів. Можете переглянути товари на сторінці магазину
+                <a href="{% url 'store' %}" class="btn btn-warning mt-1 rounded-pill">до магазину</a>
+            </p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

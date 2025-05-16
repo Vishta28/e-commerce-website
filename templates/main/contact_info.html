@@ -1,0 +1,72 @@
+<div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="position-absolute top-0 end-0 p-2">
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="bg-light shadow rounded p-3">
+            <div id="modal-content" class="row p-3">
+                <div class="d-flex justify-content-center">
+                    <h6 class="display-6">Зателефонуйте нам:</h6>
+                </div>
+                <div class="row">
+                    <div class="col-1 offset-3">
+                        <div class="image container">
+                            {% load static %} <img src="{% static 'store/kievastar_png.png' %}" width="30" height="30">
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex my-auto offset-1 p-1">
+                        <div class="title container">
+                            <a href="tel:+067 112 1772" style="color: black;">0671121772</a>
+                        </div>
+                    </div>
+                    <div class="col-1 offset-3">
+                        <div class="image container ml-n30">
+                            {% load static %} <img src="{% static 'store/vodafone_png2.png' %}" width="33" height="30">
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex my-auto offset-1 p-1">
+                        <div class="title container">
+                            <a href="tel:+095 112 1772" style="color: black;">0951121772</a>
+                        </div>
+                    </div>
+                </div>
+                <p class="border rounded-4 mt-2 mb-2 text-center p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="grey" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                      <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                      <path fill="#ffcc00" d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                    </svg>
+                    Супермаркет EVHUB, Україна, м.Київ, вул.Борщагівська 154А,
+                    ТЦ "Аркадія" 2й поверх
+                </p>
+                <div class="d-flex justify-content-center mt-2">
+                    <p class="fs-6">Або залиште заявку на зворотній дзвінок:</p>
+                </div>
+                <div class="p-3">
+                    <form method="post">
+                        <div class="form-floating mb-2">
+                          {% csrf_token %}
+                          <input type="hidden" name="order_type" value="callback">
+
+                          <input type="email" class="form-control" name="name" id="floatingInput" placeholder="name@example.com">
+                          <label class="fw-light" for="floatingInput">Ваше ім'я</label>
+                        </div>
+                        <div class="form-floating mb-2">
+                          <input type="email" class="form-control" name="phone_number" id="floatingInput2" placeholder="name@example.com"
+                              hx-get="{% url 'check_quick_order' %}"
+                              hx-trigger="keyup changed"
+                              hx-swap="outerHTML"
+                              hx-target=".quick_order_confirm_button">
+                          <label class="fw-light" for="floatingInput">+380</label>
+                        </div>
+                        <button class="quick_order_confirm_button btn btn-warning opacity-75 w-100 py-2 disabled" type="submit">
+                            Підтвердити замовлення
+                        </button>
+                        <button id="order_confirm_loading" type="submit" class="loader btn btn-warning mt-2 text-warning w-100 py-2 d-none" data-loading-class-remove="d-none">
+                            Обробляємо замовлення...
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+<div class="modal-dialog modal-md modal-dialog-centered" xmlns="http://www.w3.org/1999/html">
+    <div class="modal-content">
+        <div class="shadow rounded p-3">
+            <div class="position-absolute top-0 end-0 p-2">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+<!--        Якщо товар не в наявності-->
+            {% if item.in_stock == 'False' %}
+            <div class="container-lg bg-light mt-4 p-2 text-center">
+                <p class="display-5">Нажаль товар не в наявності
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="red" class="bi bi-x-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                    </svg>
+                </p>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-warning rounded-0 opacity-75 mt-2 p-2" data-bs-dismiss="modal">
+                    продовжити покупки
+                </button>
+            </div>
+
+            {% else %}
+            <div id="modal-content">
+                <div class="d-flex justify-content-center mb-1">
+                    <p class="display-6">Швидка покупка:</p>
+                </div>
+                {% if item.in_stock == 'pending' %}
+                <div class="container">
+                    <small class="border border-warning p-1 rounded-4 fw-light d-flex justify-content-center mb-1 text-center opacity-75">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="orange" class="bi bi-info-circle-fill ms-1 d-flex align-items-center" viewBox="0 0 16 16">
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                                </svg>
+                        Данний товар доступний під замовлення! Уточнюйте деталі у консультанта
+                    </small>
+                </div>
+                {% endif %}
+                <div class="row">
+                    {% for image in chargersitems_images|get_item:item.slug|slice:"1:2" %}
+                    <img class="col-6 rounded-2" src="{{image}}" width="220" height="180">
+                    {% endfor %}
+
+                    <div class="col-6 row d-flex justify-content-center mt-1">
+                        <h5 class="col-12 rounded-4 fw-light bg-light">{{item.title}}</h5>
+                        <span class="col-12 fw-light">
+                            {% if currency_sale_price %}
+                            <h5 class="d-inline-block border-bottom border-warning border-3 fw-light">
+                                Ціна: <span class="text-success"> {{ currency_sale_price }} {{ currency_token }}</span>
+                            </h5>
+                            <s class="fs-5 fw-semibold text-danger opacity-50 text-end ms-1"><small>{{currency_price}} {{currency_token}}</small></s>
+                            {% else %}
+                            <h5 class="d-inline-block border-bottom border-warning border-3 fw-light">
+                                Ціна: {{ currency_price }} {{ currency_token }}
+                            </h5>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                <p class="p-3 text-center">Залиште ваш номер і ми перетелефонуємо вам щоб уточнити деталі! </p>
+                <div class="p-1">
+                    <form method="post">
+                        <div class="form-floating mb-2">
+                           {% csrf_token %}
+                           <input type="email" name="phone_number" class="form-control" id="floatingInput" placeholder="name@example.com"
+                                hx-get="{% url 'check_quick_order' %}"
+                                hx-trigger="keyup changed"
+                                hx-swap="outerHTML"
+                                hx-target=".quick_order_confirm_button">
+                           <label class="fw-light" for="floatingInput">+380</label>
+                        </div>
+                        <input type="hidden" name="order_type" value="quick_order">
+                        {% if currency_sale_price %}
+                        <input type="hidden" name="price" value="{{ currency_sale_price }}">
+                        {% elif not currency_sale_price %}
+                        <input type="hidden" name="price" value="{{ currency_price }}">
+                        {% endif %}
+                        <input type="hidden" name="currency_token" value="{{ currency_token }}">
+                        <input type="hidden" name="slug" value="{{ item.slug }}">
+                        <button class="quick_order_confirm_button btn btn-warning opacity-75 w-100 py-2 disabled" type="submit">
+                            Підтвердити замовлення
+                        </button>
+                        <button id="order_confirm_loading" type="submit" class="loader btn btn-warning mt-2 text-warning w-100 py-2 d-none" data-loading-class-remove="d-none">
+                            Обробляємо замовлення...
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

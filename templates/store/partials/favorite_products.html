@@ -1,0 +1,315 @@
+<div id="favorite-products" class="container">
+    <div class="row mt-2">
+        <div id="modals-here"
+            class="modal modal-blur fade"
+            style="display: none"
+            aria-hidden="false"
+            tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+
+        {% for item in favorite_products %}
+        <div class="col-6 col-lg-4 position-relative">
+
+            {% if user_agent.is_mobile %}
+            <div id="item-card-mob" class="card d-block position-relative border-0">
+            {% else %}
+            <div id="item-store-card" class="card d-block position-relative border-0 border-bottom border-3 rounded-1" style="width: 20rem;">
+            {% endif %}
+
+                <div id="quick_view_{{item.products.slug}}" class="position-absolute"></div>
+
+                    {% if item.items.products.image %}
+                    <div class="card-image">
+                        <a class="link-black" href="{% url 'constructor_page' category=item.items.products.category.slug model=item.items.products.slug %}">
+                            <img src="{{ item.items.products.image.url }}" class="card-img img-fluid rounded-start" alt="{{ models.image.url }}">
+                        </a>
+                        <div class="position-absolute top-0 end-0 p-2">
+                            <button type="submit" class="btn"
+                                hx-get="{% url 'quick_model_view' category=item.items.products.category.slug model=item.items.products.slug %}"
+                                hx-target="#contact-modals-here"
+                                hx-trigger="click"
+                                data-bs-toggle="modal"
+                                data-bs-target="#contact-modals-here">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-fullscreen opacity-50" viewBox="0 0 16 16">
+                                    <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        {% else %}
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+                        {% endif %}
+                    </div>
+
+                <div class="position-absolute top-0 end-0 p-2">
+                    {% for model in item.products.model.all %}
+                        {% if forloop.first %}
+                        <button type="submit" class="btn"
+                            hx-get="{% url 'quick_view' category=item.items.products.category.slug model=model.slug charger_slug=item.items.products.slug %}"
+                            hx-target="#modals-here"
+                            hx-trigger="click"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modals-here">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-fullscreen opacity-50" viewBox="0 0 16 16">
+                                <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                            </svg>
+                        </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="container">
+
+                    <p class="d-none d-md-block fs-4 fw-light text-center">Зарядний пристрій {{item.items.products.title}}</p>
+                    <p class="d-block d-md-none fs-6 fw-light text-center bg-light rounded-2">Зарядний пристрій {{item.items.products.title}}</p>
+
+                    <div class="row">
+                        <div class="col-6 d-flex justify-content-start">
+                            <h6 class="d-none d-md-block text-muted fw-normal fs-6 small text-start">{{item.items.products.category}}</h6>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end">
+                            <span class="text-muted fw-normal d-none d-md-block fw-light fs-6 bg-white">
+                                В наявності
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <small id="store_category" class="col-12 d-block d-md-none text-muted ms-2">{{item.items.products.category}}</small>
+                    <div class="col-12 col-md-8">
+                        <div id="here-{{item.items.products.slug}}" class="container text-dark">
+<!--                        Ціна-->
+                            <div class="row mt-2 dynamic-blinck">
+                                {% if user_agent.is_mobile %}
+                                <p class="col-12 text-start fs-6">
+                                    <span class="text-muted">Ціна від: </span>
+                                    <span class="border-0 border-bottom border-2 border-warning">{{item.min_price}}</span>
+                                {{currency_token}}</p>
+                                {% else %}
+                                <p class="col-12 text-start fs-5">
+                                    <span class="text-muted">Ціна від: </span>
+                                    <span class="border-0 border-bottom border-2 border-warning">{{item.min_price}}</span>
+                                {{currency_token}}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 d-none d-md-block text-right pt-1">
+                        <button type="button" class="btn btn-warning btn-md opacity-75 rounded-0 shadow"
+                            hx-get="{% url 'order_model_quick' item.items.products.category.slug item.items.products.slug %}"
+                            hx-target="#contact-modals-here"
+                            hx-trigger="click"
+                            data-bs-toggle="modal"
+                            data-bs-target="#contact-modals-here">
+                            Купити
+                        </button>
+                    </div>
+                    <div class="col-12 d-block d-md-none d-flex justify-content-center">
+                        <button type="button" class="store-button btn btn-md border border-2 border-start-0 border-end-0 border-top-0 border-success rounded-0 opacity-75"
+                            hx-get="{% url 'order_model_quick' item.items.products.category.slug item.items.products.slug %}"
+                            hx-target="#contact-modals-here"
+                            hx-trigger="click"
+                            data-bs-toggle="modal"
+                            data-bs-target="#contact-modals-here">
+                            Купити
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+<!--            accessories-->
+
+        {% for item in favorite_accessories %}
+        <div class="col-6 col-lg-4">
+            <div class="">
+            {% if user_agent.is_mobile %}
+            <div id="item-card-mob" class="card d-block position-relative border-0">
+            {% else %}
+            <div id="item-store-card" class="card d-block position-relative border-0 border-bottom border-3 rounded-1" style="width: 20rem;">
+            {% endif %}
+                <div id="quick_view_{{item.slug}}" class="position-absolute"></div>
+
+                {% if chargersitems_images %}
+
+                    {% for image in chargersitems_images|get_item:item.products.slug %}
+                        {% for model in item.products.model.all %}
+                            {% if forloop.first %}
+                            <a href="{% url 'item_detail' category=item.products.category.slug model=model.slug charger_slug=item.products.slug %}">
+                                <img src="{{ image }}" class="bd-placeholder-img card-img-top" width="100%">
+                            </a>
+                            {% endif %}
+                        {% endfor%}
+                    {% endfor %}
+
+                    {% else %}
+                    <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+                    {% endif %}
+                    <div class="position-absolute top-0 end-0 p-2">
+                        {% for model in item.products.model.all %}
+                            {% if forloop.first %}
+                            <button type="submit" class="btn quick-{{item.slug}}"
+                                hx-get="{% url 'quick_view' category=item.products.category.slug model=model.slug charger_slug=item.products.slug %}"
+                                hx-target="#modals-here"
+                                hx-trigger="click"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modals-here">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-fullscreen opacity-50" viewBox="0 0 16 16">
+                                    <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                                </svg>
+                            </button>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% if user_agent.is_mobile %}
+                    <div class="container">
+                        <p class="d-none d-md-block fs-4 fw-light text-center">{{item.products.title|truncatechars:28}}</p>
+                        <p class="d-block d-md-none fs-6 fw-light text-center bg-light rounded-2">{{item.products.title|truncatechars:28}}</p>
+                        <div class="row">
+                            <div class="col-6 d-flex justify-content-start">
+                                <h6 class="d-none d-md-block text-muted fw-normal fs-6 small text-start">{{item.products.category}}</h6>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end">
+                                <span class="text-muted fw-normal d-none d-md-block fw-light fs-6 bg-white">
+                                    В наявності
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <small id="store_category" class="col-12 d-block d-md-none text-muted ms-2">{{item.products.category}}</small>
+                        <div class="col-12 mt-2">
+                            <div class="container">
+                                <p class="text-start fs-6">
+                                    <span class="text-muted">Ціна:</span>
+                                    <span class="border-0 border-bottom border-2 border-warning">{{ item.products.price|multiply:currency}}</span>
+                                {{currency_token}}</p>
+                            </div>
+                        </div>
+                        <div class="col-4 d-none d-md-block text-right pt-1">
+                            <button type="button" class="btn btn-warning btn-md opacity-75 rounded-0 shadow"
+                                hx-get="{% url 'order_quick' item.products.slug %}"
+                                hx-target="#contact-modals-here"
+                                hx-trigger="click"
+                                data-bs-toggle="modal"
+                                data-bs-target="#contact-modals-here">
+                                Купити
+                            </button>
+                        </div>
+                        <div class="col-12 d-block d-md-none d-flex justify-content-center">
+                            <button type="button" class="store-button btn btn-md border border-2 border-start-0 border-end-0 border-top-0 border-success rounded-0 opacity-75"
+                                hx-get="{% url 'order_quick' item.products.slug %}"
+                                hx-target="#contact-modals-here"
+                                hx-trigger="click"
+                                data-bs-toggle="modal"
+                                data-bs-target="#contact-modals-here">
+                                Купити
+                            </button>
+                        </div>
+                    </div>
+
+                    {% else %}
+                    <div class="card-body">
+                        {% if item.products.in_stock == 'True' %}
+                        <div class="bottom-0 start-0 text-start">
+                            <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                                В наявності
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                </svg>
+                            </span>
+                        </div>
+
+                        {% elif item.products.in_stock == 'False' %}
+                        <div class="bottom-0 start-0 text-start">
+                            <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                                Немає в наявності
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                </svg>
+                            </span>
+                        </div>
+
+                        {% elif item.products.in_stock == 'pending' %}
+                        <div class="bottom-0 start-0 text-start">
+                            <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                                Під замовлення
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                                </svg>
+                            </span>
+                        </div>
+                        {% endif %}
+
+
+                        {% for model in item.products.model.all %}
+                            {% if forloop.first %}
+                            <a class="link-dark" href="{% url 'item_detail' category=item.products.category.slug model=model.slug charger_slug=item.products.slug %}">
+                                <h6 class="card-title fw-light fs-5 bg-light">{{item.products.title}}</h6>
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+                        <h6 class="text-muted fw-normal fs-6 small">{{item.products.category}}</h6>
+
+
+                            <div class="row">
+                                <div class="col-7">
+                                    <p class="text-start fs-5">
+                                        <span class="text-muted">Ціна:</span>
+                                        <span class="border-0 border-bottom border-2 border-warning">{{ item.products.price|multiply:currency}}</span>
+                                    {{currency_token}}</p>
+                                </div>
+                                {% if item.products.in_stock == 'False' %}
+                                <span class="col-5"
+                                    hx-get="{% url 'order_quick' item.products.slug %}"
+                                    hx-target="#contact-modals-here"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#contact-modals-here">
+                                    <button type="button" class="btn btn-light rounded-pill opacity-25 btn-sm">
+                                        {% load static %}<img src="{% static 'store/Checkout 01.svg' %}" width="30" height="30">
+                                    </button>
+                                </span>
+                                {% else %}
+
+                                {% endif %}
+                                <div class="col-4 text-right">
+                                    <button type="button" class="btn btn-warning btn-md opacity-75 rounded-0 shadow"
+                                        hx-get="{% url 'order_quick' item.products.slug %}"
+                                        hx-target="#contact-modals-here"
+                                        hx-trigger="click"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#contact-modals-here">
+                                        Купити
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    </div>
+                </div>
+                <br>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+
+        <div id="to-store-button" class="bg-white" style="height: 60px;">
+            <span hx-get="{% url 'active_buttons' %}?q=to-store-button" hx-target="#to-store-button" hx-trigger="revealed" hx-swap="outerHTML">
+            </span>
+        </div>
+    </div>
+</div>

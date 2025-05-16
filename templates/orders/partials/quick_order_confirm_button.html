@@ -1,0 +1,15 @@
+{% if false_valid %}
+<button class="quick_order_confirm_button btn btn-warning opacity-75 w-100 py-2 disabled" type="submit">
+    Підтвердити замовлення
+</button>
+{% else %}
+<button id="quick_order_confirm_button" class="quick_order_confirm_button btn btn-warning opacity-75 w-100 py-2 border border-secondary" type="submit"
+    hx-post="{% url 'order_quick_confirm' %}"
+    hx-swap="innerHTML"
+    hx-trigger="click"
+    hx-target="#modal-content"
+    hx-ext="loading-states"
+    data-loading-class="d-none">
+    Підтвердити замовлення
+</button>
+{% endif %}

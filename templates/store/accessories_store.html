@@ -1,0 +1,120 @@
+{% extends 'main/main.html' %}
+
+
+{% block title %}
+Аксесуари
+{% endblock %}
+
+{% block content %}
+<div class="row">
+
+    <!--  all items list  -->
+    <div class="col-lg-12">
+        <div class="row">
+
+            {% for item in accessories %}
+            <div id="modals-here"
+                class="modal modal-blur fade"
+                style="display: none"
+                aria-hidden="false"
+                tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content"></div>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-6 position-relative">
+                <div class="card d-block mx-auto position-relative border-0 border-bottom border-3" id="item-card" style="width: 18rem;">
+                    <div id="quick_view_{{item.slug}}" class="position-absolute"></div>
+
+                    {% for image in accessory_images|get_item:item.slug %}
+                        <img src="{{ image }}" class="bd-placeholder-img card-img-top" width="100%">
+                    {% endfor %}
+
+                    <div class="position-absolute top-0 end-0 p-2">
+                        <button type="submit" class="btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-fullscreen opacity-50" viewBox="0 0 16 16" data-loading-class="d-none">
+                                <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                            </svg>
+                            <div id="spinner" class="spinner-grow text-warning d-none top-0 end-0 p-2" role="status" data-loading-class-remove="d-none">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="card-body">
+
+                        {% if item.in_stock == 'True' %}
+                        <div class="bottom-0 start-0 text-start">
+                            <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                                В наявності
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                </svg>
+                            </span>
+                        </div>
+
+                        {% elif item.in_stock == 'False' %}
+                        <div class="bottom-0 start-0 text-start">
+                            <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                                Немає в наявності
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                </svg>
+                            </span>
+                        </div>
+
+                        {% elif item.in_stock == 'pending' %}
+                        <div class="bottom-0 start-0 text-start">
+                            <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                                Під замовлення
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                                </svg>
+                            </span>
+                        </div>
+                        {% endif %}
+
+                        {% if user_agent.is_mobile %}
+                        <h6 class="card-title display-6 bg-light">{{item.title}}</h6>
+                        {% else %}
+                        <h6 class="card-title fw-light fs-5 bg-light">{{item.title}}</h6>
+                        {% endif %}
+                        <h6 class="text-muted fw-normal fs-6 small">{{item.category}}</h6>
+
+                    </div>
+                    <ul class="list-group border-top-0 rounded-0">
+                        <li class="list-group-item border-0">
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="container text-dark text-start">
+                                        <p class="fw-semibold">{{item.price}} ₴</p>
+                                    </div>
+                                </div>
+                                <div class="col-5 text-right">
+                                    <button type="button" class="btn btn-warning btn-md opacity-75 rounded-0 shadow">
+                                        Купити
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <br>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+</div>
+
+<!--{% for accessory in accessories %}-->
+<!--    <p>{{accessory.pk}}</p>-->
+<!--    <p>{{accessory.title}}</p>-->
+<!--    {% for el in accessory_images|get_item:accessory.pk %}-->
+<!--        <img src="{{ el }}" alt="Accessory Image">-->
+<!--    {% endfor %}-->
+<!--{% endfor %}-->
+
+{% endblock %}

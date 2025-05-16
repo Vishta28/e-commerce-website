@@ -1,0 +1,108 @@
+{% block content %}
+<div id="body" class="row body d-flex align-items-center justify-content-center">
+    <div class="col-11 col-md-12">
+        <div class="row g-0">
+            {% block models %}
+            {% for models in category_model %}
+            <div class="col-12 col-md-6 col-lg-4 mt-2">
+                <div class="d-none"
+                     hx-get="{% url 'models_info' model=models.slug category=category %}"
+                     hx-target="#here-{{models.slug}}"
+                     hx-trigger="revealed">
+                </div>
+
+                <!--  model card  -->
+                <div class="card p-2 m-1 border-0 border-bottom border-3 rounded-1" id="model-store-card" style="height: 100%;">
+                    <div class="row g-0">
+                        <div class="col-md-12">
+                            <a class="link-black" href="{% url 'constructor_page' category=models.category.slug model=models.slug %}">
+                                <img src="{{ models.image.url }}" class="card-img img-fluid rounded-start" alt="{{ models.image.url }}">
+                            </a>
+                            <div class="position-absolute top-0 end-0 p-2">
+                                <button type="submit" class="btn"
+                                    hx-get="{% url 'quick_model_view' category=models.category.slug model=models.slug %}"
+                                    hx-target="#contact-modals-here"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#contact-modals-here">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-fullscreen opacity-50" viewBox="0 0 16 16">
+                                        <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <div class="row">
+                                {% if models.category.slug == 'charging_stations' %}
+                                <p class="col-10 offset-1 fs-3 fw-light text-center">Зарядний пристрій {{ models.title }}</p>
+                                {% elif models.category.slug == 'charging_cables' %}
+                                <p class="col-10 offset-1 fs-3 fw-light text-center">Зарядні {{ models.title }}</p>
+                                {% endif %}
+                                <div class="col-6 d-flex justify-content-start">
+                                    <h6 class="text-muted fw-normal fs-6 small text-start">{{models.category}}</h6>
+                                </div>
+                                <div class="col-6 d-flex justify-content-end">
+                                    <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                                        В наявності
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row mt-2">
+                                <div class="col-7 text-dark text-start">
+                                    <div id="here-{{models.slug}}"></div>
+                                </div>
+                                <div class="col-5 text-end pt-2">
+                                    <button class="btn btn-warning rounded-0 opacity-75 w-100"
+                                        hx-get="{% url 'order_model_quick' models.category.slug models.slug %}"
+                                        hx-target="#contact-modals-here"
+                                        hx-trigger="click"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#contact-modals-here">
+                                            Купити
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endblock %}
+
+            {% if is_paginated %}
+                {% if page_obj.has_next %}
+                <div hx-get="{% url 'models_list' category=category %}?page={{page_obj.next_page_number}}"
+                     hx-ext="loading-states"
+                     hx-swap="beforeend"
+                     hx-target=".model-list-body"
+                     hx-select=".body"
+                     hx-trigger="revealed">
+                </div>
+                {% else %}
+                <div class="container-sm d-flex justify-content-center mt-3">
+                    <button type="button" class="btn btn-up btn-white">
+                        <a href="#" class="link-secondary opacity-75">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="orange" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+                            </svg>
+                        </a>
+                    </button>
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="container d-flex justify-content-center mt-3 d-none" data-loading-class-remove="d-none">
+    <div class="spinner-grow text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

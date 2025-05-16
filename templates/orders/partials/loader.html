@@ -1,0 +1,36 @@
+<style>
+    /* HTML: <div class="loader"></div> */
+.loader2 {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid #0000;
+  border-right-color: #ffa50097;
+  position: relative;
+  animation: l24 1s infinite linear;
+}
+.loader2:before,
+.loader2:after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: inherit;
+  animation: inherit;
+  animation-duration: 2s;
+}
+.loader2:after {
+  animation-duration: 4s;
+}
+@keyframes l24 {
+  100% {transform: rotate(1turn)}
+}
+</style>
+<div class="modal-dialog modal-sm modal-dialog-centered" xmlns="http://www.w3.org/1999/html">
+    <div class="modal-content bg-transparent border-0">
+        <div class="d-flex justify-content-center mb-4">
+          <div class="loader2" role="status" style="width: 5rem; height: 5rem;">
+          </div>
+        </div>
+    </div>
+</div>

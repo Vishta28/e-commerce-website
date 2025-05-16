@@ -1,0 +1,20 @@
+{% extends 'main/main.html' %}
+
+{% block title %}
+Сторінку не знайдено
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="text center fw-light fs-3 mt-4 bg-light">
+    Сторінку не знайдено
+  </div>
+  <div class="d-flex justify-content-center">
+    {% if user_agent.is_pc %}
+    {% load static %} <img src="{% static 'store/broken_electricity_pylon.gif' %}">
+    {% else %}
+    {% load static %} <img src="{% static 'store/broken_electricity_pylon.gif' %}">
+    {%endif %}
+  </div>
+</div>
+{% endblock %}

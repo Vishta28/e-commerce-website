@@ -1,0 +1,79 @@
+
+    <div class="container scroll-accessories-cart-mob">
+        {% for item in items %}
+        <div class="card border-0 rounded-0">
+            <div class="row border-bottom p-2">
+                {% for image in chargersitems_images|get_item:item.slug %}
+                    <img src="{{image}}" class="card-image col-4" width="90" height="90">
+
+                {% if item.in_stock == 'True' %}
+                    <span class="top-1 end-0 position-absolute">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                        </svg>
+                    </span>
+                    {% elif item.in_stock == 'False' %}
+                        <span class="top-1 end-0 position-absolute">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                            </svg>
+                        </span>
+                    {% elif item.in_stock == 'pending' %}
+                    <span class="top-1 end-0 position-absolute">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="orange" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                        </svg>
+                    </span>
+                    {% endif %}
+
+                {% endfor %}
+                <p class="card-title col-4 d-flex align-items-center fw-light fs-6"><small>
+                    {% for model in item.model.all %}
+                        {% if forloop.first %}
+                        <a class="link-dark" href="{% url 'item_detail' category=item.category.slug model=model.slug charger_slug=item.slug %}">{{item.title}}</a>
+                        {% endif %}
+                    {% endfor %}
+                </small></p>
+                <div class="col-4 row">
+                    {% if item.sale_price %}
+                    <p class="card-title col-12 d-flex align-items-center justify-content-center fs-6 fw-normal text-success mt-2">{{ item.sale_price|multiply:currency}}{{currency_token}}</p>
+                    {% else %}
+                    <p class="card-title col-12 d-flex align-items-center justify-content-center fs-6 fw-normal mt-2">{{ item.price|multiply:currency}}{{currency_token}}</p>
+                    {% endif %}
+
+                    {% if item.slug in session_cart %}
+                    <div class="col-12 d-flex align-items-center justify-content-center mb-1 opacity-75">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                        </svg>
+                    </div>
+                    {% elif item.in_stock != 'False' %}
+                    <div class="cart-form col-12 d-flex align-items-center justify-content-center">
+                        <form class="cart-form"
+                            hx-post="{% url 'add_to_cart' item.slug 'accessories-cart-button' %}"
+                            hx-ext="loading-states"
+                            data-loading-delay="500"
+                            hx-target="#header_menu_cart_button"
+                            hx-trigger="click">
+                            {% csrf_token %}
+
+                            <button id="accessories-cart-button-{{item.slug}}" type="button" class="btn btn-lg">
+                                <span id="spinner" class="spinner-grow spinner-grow-sm text-warning d-none" role="status" data-loading-class-remove="d-none">
+                                    <span class="visually-hidden">Loading...</span>
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="grey" class="bi bi-plus-circle-fill" data-loading-class="d-none" viewBox="0 0 16 16">
+                                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+

@@ -1,0 +1,20 @@
+{% extends 'main/main.html' %}
+
+
+{% block title %}
+Замовлення
+{% endblock %}
+
+{% block content %}
+
+<div class="container-lg bg-light mt-4 text-center">
+    <p class="display-5">Ми отримали ваше замовлення! Дякуємо!</p>
+    <p class="display-5">Замовлення № <span class="display-5 text-warning">{{order_number}}</span></p>
+    <a href="/">
+        <button class="btn btn-warning rounded-0 opacity-75">
+            Повернутись на головну сторінку
+        </button>
+    </a>
+</div>
+{% endblock %}
+

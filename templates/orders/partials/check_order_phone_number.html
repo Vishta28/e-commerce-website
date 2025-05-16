@@ -1,0 +1,18 @@
+{% if false_valid %}
+<div id="bottom_line" class="border border-0 border-top border-danger border-2"></div>
+<div id="top-line" class="fw-light mb-2" hx-swap-oob="true">Невірний формат номеру: +380 <span class="text-danger">{{phone_number}}</span> </div>
+<button id="order_confirm_button" type="submit" class="btn btn-secondary rounded-0 mt-2 opacity-75 w-100 disabled" hx-swap-oob="true">
+    Продовжити
+</button>
+{% else %}
+<div id="bottom_line" class="border border-0 border-top border-success border-2"></div>
+<div id="top-line" class="mb-2" hx-swap-oob="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="green" class="bi bi-check-circle-fill mb-1" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+    </svg>
+    <span class="ms-2 fw-light text-success">+380 {{phone_number}}</span>
+</div>
+<button id="order_confirm_button" type="submit" class="btn btn-warning rounded-0 mt-2 opacity-75 w-100 shadow" hx-swap-oob="true">
+    Продовжити
+</button>
+{% endif %}

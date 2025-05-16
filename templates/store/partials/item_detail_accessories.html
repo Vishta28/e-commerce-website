@@ -1,0 +1,98 @@
+<div class="row border border-0 border-bottom">
+    {% if items %}
+        {% for item in items %}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="d-block mx-auto card position-relative rounded-0" id="model-card" style="width: 15rem;">
+
+                {% if chargersitems_images|get_item:item.slug %}
+                    {% for image in chargersitems_images|get_item:item.slug %}
+                        {% for model in item.model.all %}
+                            {% if forloop.first %}
+                            <a href="{% url 'item_detail' category=item.category.slug model=model.slug charger_slug=item.slug %}">
+                                <img src="{{ image }}" class="bd-placeholder-img card-img-top" width="50%" height="220">
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+
+                    <!--add to cart form-->
+                    {% if item.slug in session_cart %}
+                    <div class="position-absolute top-0 end-0 p-2 me-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                        </svg>
+                    </div>
+                    {% elif item.in_stock != 'False' %}
+                    <form class="cart-from"
+                        hx-post="{% url 'add_to_cart' item.slug 'accessories-cart-button' %}"
+                        hx-trigger="click"
+                        hx-target="#header_menu_cart_button"
+                        hx-swap="outerHTML transition:true">
+
+                        {% csrf_token %}
+                        <div class="position-absolute top-0 end-0">
+                            <button id="accessories-cart-button-{{item.slug}}" type="button" class="btn btn-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="grey" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                    {% endif %}
+                    {% endfor %}
+
+                {% else %}
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+                {% endif %}
+
+                <div class="card-body">
+
+                    {% if item.in_stock == 'True' %}
+                    <div class="bottom-0 start-0 text-start">
+                        <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                            В наявності
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                            </svg>
+                        </span>
+                    </div>
+
+                    {% elif item.in_stock == 'False' %}
+                    <div class="bottom-0 start-0 text-start">
+                        <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                            Немає в наявності
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                            </svg>
+                        </span>
+                    </div>
+
+                    {% elif item.in_stock == 'pending' %}
+                    <div class="bottom-0 start-0 text-start">
+                        <span class="text-muted fw-normal fw-light fs-6 bg-white">
+                            Під замовлення
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                            </svg>
+                        </span>
+                    </div>
+                    {% endif %}
+
+                    <h6 class="card-title fw-light fs-5">{{item.title}}</h6>
+                    <h6 class="text-muted fw-normal fs-6 small">{{item.category}}</h6>
+                    {% if item.sale_price %}
+                    <span class="fw-semibold fs-5 text-success text-start">{{ item.sale_price|multiply:currency}} {{currency_token}}</span>
+                    <s class="fs-6 fw-semibold text-danger opacity-50"><small>{{ item.price|multiply:currency}} {{currency_token}}</small></s>
+                    {% else %}
+                    <h6 class="text-muted fw-semibold fs-5 small">{{ item.price|multiply:currency}} {{currency_token}}</h6>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+        </div>
+        {% endfor %}
+    {% else %}
+    <h6 class="mt-3 bg-warning bg-opacity-25 rounded-4 text-center fs-5 p-2">Для цього товару немає доступних аксесуарів</h6>
+    {% endif %}
+</div>

@@ -1,0 +1,172 @@
+{% extends 'main/main.html' %}
+
+{% block title %}
+Магазин
+{% endblock %}
+
+{% block content %}
+
+{% if category == 'charging_stations' %}
+<div class="models_list"
+     hx-get="{% url 'active_buttons' %}?q=header-pc-category-1"
+     hx-target="#category-1"
+     hx-trigger="revealed"
+     hx-swap="innerHTML transition:true">
+</div>
+{% elif category == 'charging_cables' %}
+<div class="models_list"
+     hx-get="{% url 'active_buttons' %}?q=header-pc-category-2"
+     hx-target="#category-2"
+     hx-trigger="revealed"
+     hx-swap="innerHTML transition:true">
+</div>
+{% endif %}
+
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center mt-3">
+        <div class="col-12 col-lg-11 col-xxl-9">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <small class="fs-6 fw-light">
+                        <a href="/" class="link-dark">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="orange" class="bi bi-house-fill" viewBox="0 0 16 16">
+                          <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+                          <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+                          </svg></a> <span class="text-info fw-semibold">></span>
+                          {% if category == 'charging_stations' %} Зарядні пристрої {% elif category == 'charging_cables' %} Зарядні кабелі {% endif %}
+                    </small>
+                </div>
+                {% if not q %}
+                    {% if user_agent.is_mobile %}
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <p class="bg-light fs-3 fw-light p-2">Оберіть потрібну модель:</p>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center align-items-center mb-3">
+                        <button type="button" class="btn btn-outline-secondary btn-md rounded-0 d-flex align-items-center justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                            Фільтр
+                            <span class="vr mx-2"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="25" fill="currentColor" class="bi bi-sliders2 pt-1" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M10.5 1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4H1.5a.5.5 0 0 1 0-1H10V1.5a.5.5 0 0 1 .5-.5M12 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m-6.5 2A.5.5 0 0 1 6 6v1.5h8.5a.5.5 0 0 1 0 1H6V10a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5M1 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 1 8m9.5 2a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V13H1.5a.5.5 0 0 1 0-1H10v-1.5a.5.5 0 0 1 .5-.5m1.5 2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Фільтр</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <form action="{% url 'models_page' category=category %}" method="get">
+                                <div class="display-6 border-start border-3 border-warning bg-white text-dark rounded-0 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                    <span class="ms-3">Бренди:</span>
+                                </div>
+                                <ul class="list-group rounded-0 mb-3">
+                                    <div class="row">
+                                    {% for brand in brands %}
+                                        <span class="col-6">
+                                            <li class="list-group-item border-0">
+                                                <input class="form-check-input me-1" type="checkbox" value="{{ brand }}" id="CheckboxBrandMob" name="brand">
+                                                <label class="form-check-label" for="CheckboxBrandMob">{{brand}}</label>
+                                            </li>
+                                        </span>
+                                    {% endfor %}
+                                    </div>
+                                </ul>
+                                <button type="submit" class="btn btn-warning rounded-0 opacity-75 w-100">
+                                     Підтвердити
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="col-12 col-lg-4 col-xxl-4 d-flex justify-content-start align-items-center">
+                        <p class="bg-light fs-3 fw-light p-2">Оберіть потрібну модель:</p>
+                    </div>
+                    <div class="col-3 d-flex justify-content-start align-items-center mb-3">
+                        <button type="button" class="btn btn-outline-secondary btn-md rounded-0 d-flex align-items-center justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLeft" aria-controls="offcanvasLeft">
+                            Фільтр
+                            <span class="vr mx-2"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="25" fill="currentColor" class="bi bi-sliders2 pt-1" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M10.5 1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4H1.5a.5.5 0 0 1 0-1H10V1.5a.5.5 0 0 1 .5-.5M12 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m-6.5 2A.5.5 0 0 1 6 6v1.5h8.5a.5.5 0 0 1 0 1H6V10a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5M1 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 1 8m9.5 2a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V13H1.5a.5.5 0 0 1 0-1H10v-1.5a.5.5 0 0 1 .5-.5m1.5 2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasLeft" aria-labelledby="offcanvasLeftLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasLeftLabel">Фільтр</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <form action="{% url 'models_page' category=category %}" method="get">
+                                <div class="display-6 border-start border-3 border-warning bg-white text-dark rounded-0 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                    <span class="ms-3">Бренди:</span>
+                                </div>
+                                <ul class="list-group rounded-0 mb-3">
+                                    <div class="row">
+                                    {% for brand in brands %}
+                                        <span class="col-6">
+                                            <li class="list-group-item border-0">
+                                                <input class="form-check-input me-1" type="checkbox" value="{{ brand }}" id="firstCheckbox1" name="brand">
+                                                <label class="form-check-label" for="firstCheckbox1">{{brand}}</label>
+                                            </li>
+                                        </span>
+                                    {% endfor %}
+                                    </div>
+                                </ul>
+                                <button type="submit" class="btn btn-warning rounded-0 opacity-75 w-100">
+                                     Підтвердити
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endif %}
+                {% if brand_list %}
+                <div class="col-12 d-flex justify-content-center justify-content-lg-start align-items-center">
+                    <p class="bg-light fs-5 fw-light p-1">Результати по брендам:
+
+                    {% for models in brand %}
+                    <span class="text-warning ms-2">{{models}}</span>
+                    {% endfor %}
+                    </p>
+                    <a href="{% url 'models_page' category=category %}">
+                        <button class="btn btn-sm btn-close d-flex justify-content-center align-items-center ms-2 mb-3"></button>
+                    </a>
+                </div>
+                {% elif brand %}
+                <div class="col-12 d-flex justify-content-center justify-content-lg-start align-items-center">
+                    <p class="bg-light fs-5 fw-light p-1">Результати по брендам:
+                    <span class="text-warning ms-2">{{brand}}</span>
+                    </p>
+                    <a href="{% url 'models_page' category=category %}">
+                        <button class="btn btn-sm btn-close d-flex justify-content-center align-items-center ms-2 mb-3"></button>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="slide-it model-list-body col-12">
+                    <div class="d-flex justify-content-center mt-3">
+                        <div class="spinner-grow text-warning" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    {% if brand_list %}
+                    <div class="models_list" hx-get="{% url 'models_list' category=category %}?{% for brand in brand_list %}&brand={{ brand }}{% endfor %}"
+                         hx-target=".model-list-body"
+                         hx-trigger="revealed"
+                         hx-swap="innerHTML transition:true">
+                    </div>
+                    {% else %}
+                    <div class="models_list" hx-get="{% url 'models_list' category=category %}?brand={{ brand }}"
+                         hx-target=".model-list-body"
+                         hx-trigger="revealed"
+                         hx-swap="innerHTML transition:true">
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

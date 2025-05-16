@@ -1,0 +1,110 @@
+/* стиль списку атрибутів фільтру store */
+.list-group .list-group-item .form-check-input:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(93, 85, 64, 0.2);
+}
+.list-group .list-group-item .form-check-input:checked {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(93, 85, 64, 0.2);
+}
+.form-check-input:checked {
+  background-color: #e8ab33;
+  border-color: #e8ab33;
+}
+
+/* стиль пагінації */
+.pagination .page-link:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(93, 85, 64, 0.2);
+}
+
+/* стиль швидкого перегляду товарів quick_view */
+#quick_view {
+    position: absolute;
+    z-index: 1000;
+}
+
+/* стиль кнопки фільтр для сторінок store */
+.offcanvas-start {
+  width:60% !important;
+}
+@media (min-width: 992px) {
+  .offcanvas-start {
+    width: 30% !important;
+  }
+}
+
+.offcanvas-bottom {
+  height:60% !important;
+}
+@media (min-height: 1500px) {
+  .offcanvas-bottom {
+    height: 40% !important;
+  }
+}
+
+/* стиль карток товарів на сторінці item-list та store */
+#item-store-card:hover {
+    border-bottom: 2px solid orange !important;
+    transform: scale(1.02);
+    z-index: 1;
+    transition: transform 250ms;
+}
+
+#item-card-mob:hover {
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  transform: scale(1.02);
+  z-index: 1;
+  transition: transform 250ms;
+}
+
+.cart-text {
+    position: absolute; /* Позиція абсолютна відносно батьківського блоку */
+    top: 50%; /* Позиціонування зверху відносно центру блоку */
+    left: 50%; /* Позиціонування зліва відносно центру блоку */
+    transform: translate(-15%, -50%); /* Зсув тексту назад на половину його висоти та ширини, щоб центрувати його */
+    color: white; /* Колір тексту */
+    text-align: center; /* Вирівнювання тексту по центру */
+    background-color: rgba(0, 0, 0, 0.5); /* Прозорий чорний фон для тексту */
+    padding: 10px; /* Відступи від тексту до країв блоку */
+}
+
+#quick-view-like {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  .like-button {
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  }
+}
+
+#item-card-mob {
+    position: relative; /* Забезпечує позиціонування відносно контейнера */
+}
+
+.card-image {
+    position: relative; /* Забезпечує позиціонування зображення всередині контейнера */
+}
+
+.card-image img {
+    width: 100%;
+    display: block; /* Знімає можливі пробіли під зображенням */
+}
+
+#store_category.position-absolute {
+    color: white; /* Колір тексту */
+    padding: 1px; /* Відступи */
+    margin-bottom: 0px;
+    z-index: 10; /* Збільшує пріоритетність видимості поверх зображення */
+}
+
+.crop-text-2 {
+  -webkit-line-clamp: 2;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}

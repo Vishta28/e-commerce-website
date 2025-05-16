@@ -1,0 +1,30 @@
+{% if context_type == 'Type Tesla' or context_type == 'Type 1' %}
+    <select class="constructor-form form-select border-0 border-bottom rounded-0" name="phases">
+        <option value="Одна фаза">Одна фаза</option>
+    </select>
+{% elif context_type == 'Type 2' %}
+    <select class="constructor-form form-select border-0 border-bottom rounded-0" name="phases">
+        <option value="Одна фаза">Одна фаза</option>
+        <option value="Три фази">Три фази</option>
+    </select>
+{% endif %}
+
+{% if context_phases == 'Одна фаза' %}
+    <select class="phases form-select border-0 border-bottom rounded-0" name="type" hx-get="{% url 'constructor_options' type_list=type_list %}" hx-target=".type" hx-trigger="change">
+        <option value="Type Tesla">Type Tesla</option>
+        <option value="Type 1">Type 1</option>
+        <option value="Type 2">Type 2</option>
+    </select>
+{% elif context_phases == 'Три фази' %}
+    <select class="form-select border-0 border-bottom rounded-0" name="type">
+        <option value="Type 2">Type 2</option>
+    </select>
+{% endif %}
+
+<svg xmlns="http://www.w3.org/2000/svg" id="constructor-button-confirm" hx-swap-oob="true" width="16" height="16" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+</svg>
+
+<span id="constructor-button-confirm-title" hx-swap-oob="true">Підтвердити</span>
+
+

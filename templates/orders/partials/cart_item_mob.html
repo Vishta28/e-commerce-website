@@ -1,0 +1,76 @@
+{% if item %}
+<div class="card mb-3 border-0 p-1" id="cart-item-{{item.product.slug}}" style="max-width: 540px;">
+    <button class="btn btn-close position-absolute top-1 start-0"
+        hx-get="{% url 'update_cart' item.product.slug 'remove' %}"
+        hx-trigger="click"
+        hx-swap="innerHTML swap:1s">
+    </button>
+    <div class="row g-0">
+        {% if item.product.in_stock == 'pending' %}
+            <div class="col-11 offset-1 d-flex justify-content-center align-items-center opacity-50 rounded-2">
+                <small class="bg-warning p-1 rounded-2">Данний товар доступний під замовлення!</small>
+            </div>
+        {% endif %}
+        <div class="col-5">
+        {% if item.image %}
+            {% for image in item.image|get_item:item.product.slug|slice:":1" %}
+                <img src="{{image}}" class="img-fluid rounded-start" alt="...">
+            {% endfor %}
+        {% endif %}
+        </div>
+        <div class="col-7 opacity-75">
+            <div class="card-body">
+                <h6 class="card-title">{{item.product.title}}</h6>
+                <p class="card-text">Ціна: <b class="text-warning">{{item.total_price}}₴</b></p>
+                <div class="d-flex ms-3">
+                    <div class="row">
+                        <a class="col-4 btn btn-sm btn-outline-warning d-flex justify-content-center rounded-pill opacity-75 text-dark "
+                            hx-get="{% url 'update_cart' item.product.slug 'decrement' %}"
+                            hx-target="#cart-item-{{item.product.slug}}"
+                            hx-swap="outerHTML">
+                            <b>-</b>
+                        </a>
+
+                        <span class="col-2 d-flex justify-content-center">{{item.quantity}}</span>
+
+                        <a class="col-4 btn btn-sm btn-outline-warning d-flex justify-content-center rounded-pill opacity-75 text-dark"
+                            hx-get="{% url 'update_cart' item.product.slug 'increment' %}"
+                            hx-target="#cart-item-{{item.product.slug}}"
+                            hx-swap="outerHTML">
+                            <b>+</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if item.product.category.slug != 'accessories' and item.product.category != 'accessories' %}
+    <p class="d-inline-flex gap-1">
+        <button class="btn btn-sm btn-light border-secondary d-flex align-items-center justify-content-center opacity-75 rounded-0 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample-{{item.product.slug}}" aria-expanded="false" aria-controls="flush-collapseOne">
+            Додайте аксесуари
+            <span class="vr mx-2"></span>
+            <b class="text-secondary">+</b>
+        </button>
+    </p>
+    <div class="collapse border border-warning" id="collapseExample-{{item.product.slug}}">
+        {% for model in item.product.model.all %}
+        <div id="spinner-{{item.product.slug}}" class="spinner-grow text-warning d-flex border border-warning" role="status"
+            hx-get="{% url 'cart_accessories' model item.product.slug %}"
+            hx-target="#spinner-{{item.product.slug}}"
+            hx-swap="outerHTML"
+            hx-trigger="revealed">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% else %}
+<div class="d-none"
+    hx-get="{% url 'cart' %}"
+    hx-target=".modal-dialog"
+    hx-trigger="revealed"
+    hx-swap="innerHTML">
+</div>
+{% endif %}
+

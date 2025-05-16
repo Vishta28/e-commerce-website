@@ -1,0 +1,26 @@
+{% block content %}
+
+{% if context_order_type.order_type == 'quick_order' %}
+<div class="container-lg bg-light mt-4 p-2 text-center rounded-2">
+    <p class="display-6">Ми отримали ваше замовлення! Дякуємо!</p>
+    <p class="display-5">Замовлення № <span class="display-5 text-warning">{{context_order_type.order_number}}</span></p>
+</div>
+<div class="d-flex justify-content-center">
+    <button class="btn btn-warning rounded-0 opacity-75 mt-2 p-2" data-bs-dismiss="modal">
+        продовжити покупки
+    </button>
+</div>
+
+{% else %}
+<div class="container-lg bg-light mt-4 p-2 text-center">
+    <p class="display-5">Ми отримали вашу заявку на дзвінок!</p>
+    <p class="small">Зв'яжемось з вами найближчим часом!</p>
+</div>
+<div class="d-flex justify-content-center">
+    <button class="btn btn-warning rounded-0 opacity-75 mt-2 p-2" data-bs-dismiss="modal">
+        продовжити покупки
+    </button>
+</div>
+{% endif %}
+
+{% endblock %}

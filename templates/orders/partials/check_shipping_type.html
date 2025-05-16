@@ -1,0 +1,6 @@
+{% if shipping_type == 'nova_poshta' %}
+<input type="text" name="shipping_address" class="form-control rounded-0 border border-2 border-warning" placeholder="Введіть місто та відділення нової пошти" id="id_shipping_address">
+<p id="message_shipping" class="d-none"></p>
+{% elif shipping_type == 'self' %}
+<p class="bg-light border border-warning border-2 opacity-75 rounded-2 p-2">Наш магазин знаходиться за адресою: м.Київ, вул. Борщагівська 154а ТЦ "Аркадія", 2-й поверх</p>
+{% endif %}

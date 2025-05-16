@@ -1,0 +1,70 @@
+{% extends 'main/main.html' %}
+
+{% block title %}
+Динамічний магазин
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12 text-center mb-3">
+            <p class="display-6 bg-light d-inline">Категорії:</p>
+        </div>
+        <!--  charging stations menu  -->
+        <div class="col-12 col-md-6 mb-2 mt-2">
+            <a href="{% url 'models_page' category='charging_stations' %}">
+                <div class="card category-card text-dark" id="welcome-card1">
+                    {% load static %} <img src="{% static 'store/chargers_category_new4.png' %}" class="card-img opacity-75" alt="image">
+                    <div class="card-img-overlay">
+                        <h5 class="card-title text-warning">Зарядні пристрої</h5>
+                        <p class="card-text">Зарядні пристрої для електромобілів це основний гаджет котрий має бути у кожного електромобіліста.</p>
+                        <div class="">
+                            <div class="d-block mx-auto card position-relative rounded-0" id="model-card" style="width: 7rem;">
+                                <a href="">
+                                   <img src="{% static 'store/delete_this-static1.jpg' %}" class="bd-placeholder-img card-img-top" width="25%" height="110">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--  charging cables menu  -->
+        <div class="col-12 col-md-6 mb-2 mt-2">
+            <a href="{% url 'models_page' category='charging_cables' %}">
+                <div class="card category-card text-dark" id="welcome-card2">
+                    {% load static %} <img src="{% static 'store/cable_category2.png' %}" class="card-img opacity-75" alt="image">
+                    <div class="card-img-overlay">
+                        <h5 class="card-title text-warning">Зарядні кабелі</h5>
+                        <p class="card-text">Зарядні кабелі допоможуть вам зарядитися на публічних зарядках вашого міста.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--  plugs menu  -->
+        <div class="col-12 col-md-6 mb-2">
+            <a href="{% url 'store' %}?plg='plugs_adapters'">
+                <div class="card category-card text-dark" id="welcome-card3">
+                    {% load static %} <img src="{% static 'store/rozetki_category.png' %}" class="card-img opacity-75" alt="image">
+                    <div class="card-img-overlay">
+                        <h5 class="card-title text-warning">Розетки і перехідники</h5>
+                        <p class="card-text">Допоміжні аксесуари для вашого зарядного обладнання</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--  accessories menu  -->
+        <div class="col-12 col-md-6 mb-2">
+            <a class="bg-light" href="{% url 'store' %}?ac='accessories_store'" style="color: black;">
+                <div class="card category-card text-dark" id="welcome-card4">
+                    {% load static %} <img src="{% static 'store/accesories_category.png' %}" class="card-img opacity-75" alt="image">
+                    <div class="card-img-overlay">
+                        <h5 class="card-title text-warning">Аксесуари</h5>
+                        <p class="card-text">Різноманітні аксесуари для вашого автомобіля та обладнання</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

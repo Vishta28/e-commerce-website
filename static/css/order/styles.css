@@ -1,0 +1,15 @@
+/* ширина вікна dropdown з аксесуарами в кошику */
+.scroll-accessories-cart-mob {
+    max-height: 210px;
+    overflow-y: auto;
+}
+
+/* ширина вікна dropdown з аксесуарами в кошику */
+.dropdown-menu {
+  max-width: 500px;
+}
+
+/* glow ефект кнпоки замовлення в quick_order */
+#quick_order_confirm_button {
+    box-shadow: 0 0 5px #669900, 0 0 5px #669900, 0 0 12px #669900, 0 0 13px #ffe066;
+}
